@@ -26,6 +26,16 @@ VERSION="${AFERIDOR_VERSION:-main}"
 PREFIX="${AFERIDOR_PREFIX:-${XDG_DATA_HOME:-$HOME/.local/share}/aferidor}"
 BINDIR="${AFERIDOR_BINDIR:-$HOME/.local/bin}"
 SKILLDIR="${AFERIDOR_SKILLDIR:-$HOME/.claude/skills}"
+
+# The project was called `feira` before 20/09/2026. An install from that era is
+# a *complete working copy* under the old name, not a dangling link, so it keeps
+# answering to old commands forever and quietly becomes the stale one. This
+# installer removes it — the binaries, the copy, and the skill directories that
+# would otherwise sit next to the new ones describing the same procedure twice.
+#
+# Household data is never here: it lives in whatever directory you passed to
+# `aferidor init`, which this does not touch.
+LEGACY="${AFERIDOR_LEGACY_PREFIX:-$(dirname "$PREFIX")/feira}"
 CASA=""
 DRY_RUN=0
 NO_SKILLS=0
@@ -180,6 +190,28 @@ step "Installing to $PREFIX"
 if [ -f "$PREFIX/bin/aferidor" ]; then
   note "an existing install is here; it will be replaced (your household data is untouched)"
 fi
+
+# --- upgrade from the old name --------------------------------------------
+#
+# Done before anything is written, so a `--dry-run` shows it too, and so the
+# removal cannot be skipped by a later failure that exits early.
+if [ -d "$LEGACY" ]; then
+  step "Removing the old '$LEGACY' install"
+  note "copied from the previous name; the new copy below replaces it"
+  run rm -rf "$LEGACY"
+fi
+for old in feira-lista feira-nota-fiscal feira-pedido feira-precos; do
+  if [ -e "$SKILLDIR/$old" ]; then
+    step "Removing the old skill '$old'"
+    run rm -rf "$SKILLDIR/$old"
+  fi
+done
+for old in feira feira-fone feira-mcp; do
+  if [ -L "$BINDIR/$old" ]; then
+    step "Removing the old command '$old'"
+    run rm -f "$BINDIR/$old"
+  fi
+done
 
 run mkdir -p "$PREFIX" "$BINDIR"
 for part in bin template skills docs extensao; do

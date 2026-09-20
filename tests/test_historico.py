@@ -183,9 +183,42 @@ with tempfile.TemporaryDirectory() as tmp:
     check("asking about an item changes nothing on disk",
           (casa / "dados" / "observacoes.csv").read_text(encoding="utf-8"), antes)
 
+# ---------------------------------------------------------------------------
+# A household created before the 20/09/2026 rename still has `feira.toml`.
+#
+# Reading only the new name would not fail loudly: the file would simply be
+# ignored, the shipping defaults would load, and a household that had raised its
+# migration threshold to 20% would start seeing 9% migrations recommended with
+# no warning anywhere. Silent configuration loss is the failure mode worth a
+# test, so this asserts the old file is *read*, and that the new name wins when
+# both exist.
+with tempfile.TemporaryDirectory() as tmp:
+    legada = pathlib.Path(tmp) / "casa-legada"
+    subprocess.run([sys.executable, str(AFERIDOR), "init", str(legada)],
+                   capture_output=True, text=True, check=True)
+
+    config = (legada / "aferidor.toml").read_text(encoding="utf-8")
+    (legada / "feira.toml").write_text(
+        config.replace("delta_minimo_pct = 8.0", "delta_minimo_pct = 90.0"),
+        encoding="utf-8")
+    (legada / "aferidor.toml").unlink()
+
+    achou = aferidor(legada, "advise")
+    check("a household keeping the old config name is still a household",
+          achou.returncode, 0)
+    antigo = json.loads(aferidor(legada, "compare", "oleo-de-soja", "--json").stdout)
+    check("the threshold in feira.toml is the one in force",
+          "limite 90%" in antigo["veredito"]["razao"], True)
+
+    (legada / "aferidor.toml").write_text(config, encoding="utf-8")
+    novo = json.loads(aferidor(legada, "compare", "oleo-de-soja", "--json").stdout)
+    check("with both present, aferidor.toml wins",
+          "limite 8%" in novo["veredito"]["razao"], True)
+
 if falhas:
     print(f"FAIL — {len(falhas)} check(s) did not hold:\n")
     for f in falhas:
         print(f"  {f}")
     sys.exit(1)
-print("ok — receipts import once, history reads by date, and low stock is a suggestion")
+print("ok — receipts import once, history reads by date, low stock is a suggestion, "
+      "and a pre-rename household keeps its own thresholds")

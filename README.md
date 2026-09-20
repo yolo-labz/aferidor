@@ -185,6 +185,37 @@ aferidor advise
 O repositório já vem com dados de exemplo, então `aferidor advise` responde alguma
 coisa desde o primeiro minuto.
 
+### Se você instalou quando o projeto se chamava `feira`
+
+O projeto mudou de nome em 20/09/2026. O instalador novo **desfaz a instalação
+antiga**: apaga a cópia em `~/.local/share/feira/`, as skills `feira-*` e os
+comandos `feira*` do seu `~/.local/bin/`. Sem isso, os dois nomes continuariam
+funcionando lado a lado — e o antigo, parado no tempo, responderia primeiro.
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/yolo-labz/aferidor/main/install.sh | sh
+```
+
+**O que sai e o que fica:**
+
+| | |
+|---|---|
+| Sai | a instalação antiga (binários, cópia, skills). Nada é migrado porque nada lá é seu dado |
+| Fica | o diretório da sua casa — `~/minha-feira` ou onde você criou. Notas, planilhas e `feira.toml` continuam lá, intactos |
+
+O arquivo de configuração da casa **não precisa** ser renomeado: o programa lê
+`aferidor.toml` e, se não achar, `feira.toml`. Um `feira.toml` com os seus
+limiares continua valendo — ignorá-lo faria o programa voltar calado para os
+padrões de fábrica, que é a pior forma de perder uma configuração. Se você
+quiser padronizar, o `mv` é opcional:
+
+```sh
+cd ~/minha-casa && mv feira.toml aferidor.toml
+```
+
+Quem prefere usar a interface em inglês do repositório: o GitHub redireciona
+`yolo-labz/feira` para o endereço novo, então links antigos não quebram.
+
 ## Começar pelas notas que você já tem
 
 Você não precisa digitar meses de compra para o `aferidor` ter o que dizer. Baixe
