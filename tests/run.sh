@@ -53,6 +53,63 @@ check_template() {
 }
 run "template — a fresh household repository validates" check_template
 
+# The upgrade path, which nothing else exercises: an install from before the
+# 20/09/2026 rename is a complete copy under the old name, so it keeps working
+# forever and quietly goes stale. This asserts the installer actually removes it
+# before installing anything — and does so without being pointed at a PREFIX,
+# which would prove nothing about what real users have on disk.
+#
+# shellcheck disable=SC2329,SC2317
+check_upgrade() {
+  tmp=$(mktemp -d)
+  # shellcheck disable=SC2064
+  trap "rm -rf '$tmp'" EXIT
+  mkdir -p "$tmp/data/feira/bin" "$tmp/data/feira/docs" \
+           "$tmp/bin" "$tmp/skills/feira-precos"
+  for tool in aferidor aferidor-fone aferidor-mcp; do
+    echo 'old copy' > "$tmp/data/feira/bin/$tool"
+  done
+  echo 'old skill' > "$tmp/skills/feira-precos/SKILL.md"
+  # The old binaries were named `feira`, not `aferidor`: the old *installation*
+  # lives under an `aferidor` path (it is today's layout), while the commands it
+  # put on PATH carry the old name.
+  for tool in feira feira-fone feira-mcp; do
+    ln -s "$tmp/data/feira/bin/aferidor" "$tmp/bin/$tool"
+  done
+
+  AFERIDOR_PREFIX="$tmp/data/aferidor" \
+  AFERIDOR_BINDIR="$tmp/bin" \
+  AFERIDOR_SKILLDIR="$tmp/skills" \
+  HOME="$tmp" sh install.sh --no-skills --dry-run > "$tmp/out" 2>&1 || return 1
+
+  # Deriving the legacy paths from the configured ones is the whole point: a
+  # hardcoded ~/.local/share/feira would pass a test written with real defaults
+  # and do nothing at all for anyone who moved their prefix.
+  grep -q "rm -rf $tmp/data/feira" "$tmp/out" || {
+    printf 'the old install was not removed: %s\n' "$tmp/data/feira"; return 1; }
+  grep -q "rm -f $tmp/bin/feira$" "$tmp/out" || {
+    printf 'the old command was not removed: %s\n' "$tmp/bin/feira"; return 1; }
+  grep -q "rm -rf $tmp/skills/feira-precos" "$tmp/out" || {
+    printf 'the old skill was not removed: %s\n' "$tmp/skills/feira-precos"; return 1; }
+
+  # The real install, on empty directories, so the assertion below is about what
+  # the installer *did*, not what it said it would do.
+  AFERIDOR_PREFIX="$tmp/data/aferidor" \
+  AFERIDOR_BINDIR="$tmp/bin" \
+  AFERIDOR_SKILLDIR="$tmp/skills" \
+  HOME="$tmp" sh install.sh > "$tmp/real" 2>&1 || return 1
+  [ -d "$tmp/data/feira" ] && { printf 'the old install survived a real run\n'; return 1; }
+  [ -L "$tmp/bin/feira" ] && { printf 'the old command survived a real run\n'; return 1; }
+  [ -x "$tmp/bin/aferidor" ] || { printf 'the new command was not installed\n'; return 1; }
+  # An old skill surviving next to the new one is the duplicate that actually
+  # confuses an agent: two files describing the same procedure, one of them stale.
+  [ -e "$tmp/skills/feira-precos" ] && { printf 'the old skill survived a real run\n'; return 1; }
+  [ -d "$tmp/skills/aferidor-precos" ] || { printf 'the new skills were not installed\n'; return 1; }
+
+  printf 'ok — a pre-rename install is removed, not left to shadow the new one\n'
+}
+run "installer — upgrade from the old name" check_upgrade
+
 printf '\n'
 if [ "$fail" -eq 0 ]; then
   printf 'ALL CHECKS PASSED\n'
