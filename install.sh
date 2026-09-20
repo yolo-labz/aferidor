@@ -1,10 +1,10 @@
 #!/bin/sh
-# feira installer — https://github.com/yolo-labz/feira
+# aferidor installer — https://github.com/yolo-labz/aferidor
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/yolo-labz/feira/main/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/yolo-labz/aferidor/main/install.sh | sh
 #   ./install.sh --dry-run          # show what would happen, change nothing
-#   ./install.sh --casa ~/minha-feira
+#   ./install.sh --casa ~/minha-casa
 #   ./install.sh --version v0.1.0   # pin an exact release
 #
 # Everything this script does lives under your home directory. It never uses
@@ -21,11 +21,11 @@
 
 set -eu
 
-REPO="yolo-labz/feira"
-VERSION="${FEIRA_VERSION:-main}"
-PREFIX="${FEIRA_PREFIX:-${XDG_DATA_HOME:-$HOME/.local/share}/feira}"
-BINDIR="${FEIRA_BINDIR:-$HOME/.local/bin}"
-SKILLDIR="${FEIRA_SKILLDIR:-$HOME/.claude/skills}"
+REPO="yolo-labz/aferidor"
+VERSION="${AFERIDOR_VERSION:-main}"
+PREFIX="${AFERIDOR_PREFIX:-${XDG_DATA_HOME:-$HOME/.local/share}/aferidor}"
+BINDIR="${AFERIDOR_BINDIR:-$HOME/.local/bin}"
+SKILLDIR="${AFERIDOR_SKILLDIR:-$HOME/.claude/skills}"
 CASA=""
 DRY_RUN=0
 NO_SKILLS=0
@@ -42,7 +42,7 @@ fi
 say()  { printf '%s\n' "$*"; }
 step() { printf '%s==>%s %s\n' "$B" "$R" "$*"; }
 note() { printf '%s    %s%s\n' "$D" "$*" "$R"; }
-die()  { printf '%s\n' "feira: $*" >&2; exit "${2:-1}"; }
+die()  { printf '%s\n' "aferidor: $*" >&2; exit "${2:-1}"; }
 run()  { if [ "$DRY_RUN" -eq 1 ]; then note "would: $*"; else "$@"; fi; }
 
 # Invoked by the trap below, which shellcheck cannot see. Older versions report
@@ -82,7 +82,7 @@ done
 # There is no reason for this to be root, and `curl | sudo sh` is the failure
 # mode that makes the whole pattern deservedly unpopular.
 
-if [ "$(id -u)" = "0" ] && [ -z "${FEIRA_ALLOW_ROOT:-}" ]; then
+if [ "$(id -u)" = "0" ] && [ -z "${AFERIDOR_ALLOW_ROOT:-}" ]; then
   die "refusing to install as root. Run this as your normal user — everything
      goes under \$HOME and sudo is never needed." 3
 fi
@@ -108,7 +108,7 @@ if [ -z "$PY" ]; then
      macOS           brew install python3   (or install Xcode command line tools)
      Windows         install WSL, then follow the Linux steps
 
-     Nothing else is required — feira uses only the standard library." 2
+     Nothing else is required — aferidor uses only the standard library." 2
 fi
 note "python: $PY ($("$PY" -c 'import platform;print(platform.python_version())'))"
 
@@ -130,54 +130,54 @@ case "$0" in
   *)   [ -f "./$0" ] && SELF_DIR=$(pwd) ;;
 esac
 
-if [ -n "$SELF_DIR" ] && [ -f "$SELF_DIR/bin/feira" ] && [ -d "$SELF_DIR/template" ]; then
+if [ -n "$SELF_DIR" ] && [ -f "$SELF_DIR/bin/aferidor" ] && [ -d "$SELF_DIR/template" ]; then
   SRC="$SELF_DIR"
   step "Installing from this checkout"
   note "$SRC"
 else
   [ -z "$DOWNLOADER" ] && die "needs curl or wget to download the release" 2
-  TMP=$(mktemp -d 2>/dev/null || mktemp -d -t feira)
+  TMP=$(mktemp -d 2>/dev/null || mktemp -d -t aferidor)
   TARBALL="https://codeload.github.com/$REPO/tar.gz/$VERSION"
 
-  step "Downloading feira ($VERSION)"
+  step "Downloading aferidor ($VERSION)"
   if [ "$DOWNLOADER" = "curl" ]; then
-    curl -fsSL --proto '=https' --tlsv1.2 "$TARBALL" -o "$TMP/feira.tar.gz" \
+    curl -fsSL --proto '=https' --tlsv1.2 "$TARBALL" -o "$TMP/aferidor.tar.gz" \
       || die "download failed. Check your connection, or that '$VERSION' is a real tag." 1
   else
-    wget -qO "$TMP/feira.tar.gz" "$TARBALL" \
+    wget -qO "$TMP/aferidor.tar.gz" "$TARBALL" \
       || die "download failed. Check your connection, or that '$VERSION' is a real tag." 1
   fi
 
   # Publish this digest in the release notes so a suspicious reader can check
   # that the bytes they got are the bytes everyone else got.
   if command -v sha256sum >/dev/null 2>&1; then
-    note "sha256: $(sha256sum "$TMP/feira.tar.gz" | cut -d' ' -f1)"
+    note "sha256: $(sha256sum "$TMP/aferidor.tar.gz" | cut -d' ' -f1)"
   elif command -v shasum >/dev/null 2>&1; then
-    note "sha256: $(shasum -a 256 "$TMP/feira.tar.gz" | cut -d' ' -f1)"
+    note "sha256: $(shasum -a 256 "$TMP/aferidor.tar.gz" | cut -d' ' -f1)"
   fi
 
-  if [ -n "${FEIRA_SHA256:-}" ]; then
-    got=$(sha256sum "$TMP/feira.tar.gz" 2>/dev/null | cut -d' ' -f1 \
-          || shasum -a 256 "$TMP/feira.tar.gz" | cut -d' ' -f1)
-    [ "$got" = "$FEIRA_SHA256" ] || die "checksum mismatch.
-     expected $FEIRA_SHA256
+  if [ -n "${AFERIDOR_SHA256:-}" ]; then
+    got=$(sha256sum "$TMP/aferidor.tar.gz" 2>/dev/null | cut -d' ' -f1 \
+          || shasum -a 256 "$TMP/aferidor.tar.gz" | cut -d' ' -f1)
+    [ "$got" = "$AFERIDOR_SHA256" ] || die "checksum mismatch.
+     expected $AFERIDOR_SHA256
      got      $got
      Do not proceed. Report this at https://github.com/$REPO/issues" 1
     note "checksum verified"
   fi
 
-  tar -xzf "$TMP/feira.tar.gz" -C "$TMP" || die "could not unpack the archive" 1
-  SRC=$(find "$TMP" -maxdepth 1 -type d -name 'feira-*' | head -n1)
+  tar -xzf "$TMP/aferidor.tar.gz" -C "$TMP" || die "could not unpack the archive" 1
+  SRC=$(find "$TMP" -maxdepth 1 -type d -name 'aferidor-*' | head -n1)
   [ -d "$SRC" ] || die "unexpected archive layout" 1
 fi
 
-[ -f "$SRC/bin/feira" ] || die "the source at $SRC has no bin/feira — wrong directory?" 1
+[ -f "$SRC/bin/aferidor" ] || die "the source at $SRC has no bin/aferidor — wrong directory?" 1
 
 # --- install ---------------------------------------------------------------
 
 step "Installing to $PREFIX"
 
-if [ -f "$PREFIX/bin/feira" ]; then
+if [ -f "$PREFIX/bin/aferidor" ]; then
   note "an existing install is here; it will be replaced (your household data is untouched)"
 fi
 
@@ -187,10 +187,10 @@ for part in bin template skills docs extensao; do
   run rm -rf "$PREFIX/$part"
   run cp -R "$SRC/$part" "$PREFIX/$part"
 done
-run chmod +x "$PREFIX/bin/feira" "$PREFIX/bin/feira-fone" "$PREFIX/bin/feira-mcp"
+run chmod +x "$PREFIX/bin/aferidor" "$PREFIX/bin/aferidor-fone" "$PREFIX/bin/aferidor-mcp"
 
 # Symlinks rather than copies, so the next install upgrades them automatically.
-for tool in feira feira-fone feira-mcp; do
+for tool in aferidor aferidor-fone aferidor-mcp; do
   if [ "$DRY_RUN" -eq 0 ]; then
     ln -sf "$PREFIX/bin/$tool" "$BINDIR/$tool"
   else
@@ -203,9 +203,9 @@ done
 
 step "Verifying"
 if [ "$DRY_RUN" -eq 0 ]; then
-  "$PY" "$PREFIX/bin/feira" selftest || die "the self-test failed — this install is not trustworthy, please report it" 1
+  "$PY" "$PREFIX/bin/aferidor" selftest || die "the self-test failed — this install is not trustworthy, please report it" 1
 else
-  note "would: feira selftest"
+  note "would: aferidor selftest"
 fi
 
 # --- agent skills ----------------------------------------------------------
@@ -232,9 +232,9 @@ fi
 if [ -n "$CASA" ]; then
   step "Creating your household repository"
   if [ "$DRY_RUN" -eq 0 ]; then
-    "$PY" "$PREFIX/bin/feira" init "$CASA"
+    "$PY" "$PREFIX/bin/aferidor" init "$CASA"
   else
-    note "would: feira init $CASA"
+    note "would: aferidor init $CASA"
   fi
 fi
 
@@ -260,23 +260,23 @@ if [ "$PATH_OK" -eq 0 ]; then
   say "      export PATH=\"\$PATH:$BINDIR\""
   say ""
   say "  Then open a new terminal. Until then, use the full path:"
-  say "      $PREFIX/bin/feira --help"
+  say "      $PREFIX/bin/aferidor --help"
   say ""
 fi
 
 if [ -z "$CASA" ]; then
   say "  Next: create a household repository."
   say ""
-  say "      feira init ~/minha-feira"
-  say "      cd ~/minha-feira"
-  say "      feira advise"
+  say "      aferidor init ~/minha-casa"
+  say "      cd ~/minha-casa"
+  say "      aferidor advise"
   say ""
   say "  Then open AGENTS.md and write your household's rules in your own words."
 else
   say "  Next:"
   say ""
   say "      cd $CASA"
-  say "      feira advise          # what the example data recommends"
+  say "      aferidor advise          # what the example data recommends"
   say "      \$EDITOR AGENTS.md     # your household's rules"
   say ""
 fi
@@ -284,7 +284,7 @@ fi
 say "  Guide (Portuguese):  $PREFIX/docs/02-o-metodo.md"
 say "  Talk to it (MCP):    $PREFIX/docs/explicacao/como-conversar.md"
 say "  Browser extension:   $PREFIX/extensao/  (load unpacked — see its README)"
-say "  Uninstall:           rm -rf $PREFIX $BINDIR/feira $BINDIR/feira-fone $BINDIR/feira-mcp"
+say "  Uninstall:           rm -rf $PREFIX $BINDIR/aferidor $BINDIR/aferidor-fone $BINDIR/aferidor-mcp"
 say "  Your data is yours and lives only in the household directory."
 say ""
 

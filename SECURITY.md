@@ -3,7 +3,7 @@
 ## Como reportar
 
 Encontrou algo que expõe dados ou permite gasto não autorizado? Abra uma issue
-com o rótulo `security` em <https://github.com/yolo-labz/feira/issues>, ou, se o
+com o rótulo `security` em <https://github.com/yolo-labz/aferidor/issues>, ou, se o
 problema for explorável por terceiros, mande em privado antes de publicar.
 
 Não há programa de recompensa. Há gratidão e crédito no changelog.
@@ -17,19 +17,19 @@ Nenhum dado sai da sua máquina, exceto quando você mesmo o publica.
 ### O que o software nunca faz
 
 - Não pede, guarda ou transmite senha, TOTP, número de cartão, CVV ou token.
-- Não faz requisição de rede em nenhum ponto do CLI (`feira`), nem da extensão.
-  O `feira-fone` fala apenas com o seu próprio aparelho, via `adb`.
+- Não faz requisição de rede em nenhum ponto do CLI (`aferidor`), nem da extensão.
+  O `aferidor-fone` fala apenas com o seu próprio aparelho, via `adb`.
 - Não completa pagamento sozinho. Ver abaixo.
 - Não instala nada com `sudo`. O instalador se recusa a rodar como root.
 
 ### O portão de pagamento é código
 
-O `feira-fone tocar` recusa qualquer elemento cujo texto contenha um termo de
+O `aferidor-fone tocar` recusa qualquer elemento cujo texto contenha um termo de
 pagamento (`pagar`, `finalizar pedido`, `confirmar pagamento`, `place order`,
 `enviar`, entre outros). Passa somente com `--eu-confirmo` naquela invocação
 específica. Não existe modo persistente, e não deve existir.
 
-A lista está em `bin/feira-fone` (`PERIGO`) e é verificada por
+A lista está em `bin/aferidor-fone` (`PERIGO`) e é verificada por
 `tests/test_fone.py`. **Se você adicionar um mercado cujo botão de pagamento
 usa outra palavra, adicione a palavra à lista e ao teste.** Um falso negativo
 aqui é uma compra não autorizada.
@@ -65,7 +65,7 @@ A porta do `adb` não tem autenticação além do pareamento inicial. **Quem alc
 a porta controla o telefone.** Coloque o aparelho numa rede isolada, não exponha
 a porta para fora, e trate o aparelho como dispositivo de credencial — ele
 guarda login de entrega e um cartão. Ver
-[camada 4b](skills/feira-pedido/referencia/tier-3-android.md).
+[camada 4b](skills/aferidor-pedido/referencia/tier-3-android.md).
 
 ### O instalador
 
@@ -77,7 +77,7 @@ segurança. O que foi feito para que ela seja responsável:
 - Recusa rodar como root.
 - Instala só sob `$HOME`, sem `sudo`.
 - `--dry-run` mostra tudo antes.
-- Imprime o SHA-256 do que baixou; `FEIRA_SHA256` verifica contra um valor seu.
+- Imprime o SHA-256 do que baixou; `AFERIDOR_SHA256` verifica contra um valor seu.
 - `--version` fixa uma tag exata.
 - Não edita nenhum arquivo de shell seu — imprime a linha de PATH para você
   colar.

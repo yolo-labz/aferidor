@@ -40,7 +40,7 @@ exagerar, o texto de lançamento é onde isso costuma vazar.
 > experimental — uma casa, um aparelho — e eu **não** medi economia contra uma
 > linha de base controlada. Quem promete porcentagem sem isso está chutando.
 >
-> github.com/yolo-labz/feira
+> github.com/yolo-labz/aferidor
 
 **Peça:** `demo-fone.gif` (use o `-dark` em fundo escuro).
 **Canal:** LinkedIn, Instagram, grupo de família.
@@ -51,7 +51,7 @@ a vitrine é de demonstração, não é um aplicativo de entrega.
 
 ## 2. Post técnico — OSS
 
-> **feira** — um agente que lê preço de mercado na tela de um Android físico,
+> **aferidor** — um agente que lê preço de mercado na tela de um Android físico,
 > decide comparando por quilo/litro, monta o carrinho e **para no pagamento**.
 > Os preços históricos saem da nota fiscal eletrônica brasileira (NFC-e): o que
 > a casa pagou, não o que estava anunciado.
@@ -64,7 +64,7 @@ a vitrine é de demonstração, não é um aplicativo de entrega.
 >   observações. O veredito mais comum é `MANTER`, e quando faltam dados ele
 >   responde `COLETAR` em vez de chutar.
 > - Servidor **MCP** incluso, para perguntar em português pelo cliente de IA que
->   você já usa — sem chave de API do lado do `feira`.
+>   você já usa — sem chave de API do lado do `aferidor`.
 >
 > A parte que talvez interesse a quem trabalha com agentes: **o servidor MCP não
 > tem nenhuma ferramenta de pedido ou pagamento.** Não é um portão de
@@ -79,11 +79,11 @@ a vitrine é de demonstração, não é um aplicativo de entrega.
 > 0.1.0, sem release publicada, sem instalação externa conhecida. Se você for a
 > primeira pessoa a instalar, o relato do que quebrou vale mais que um PR.
 >
-> github.com/yolo-labz/feira
+> github.com/yolo-labz/aferidor
 
 **Peça:** `demo-fone.gif`. **Canal:** Hacker News (Show HN), Lobsters, Mastodon.
 
-> **Nota para Show HN:** o título deve ser factual — *"Show HN: feira – an agent
+> **Nota para Show HN:** o título deve ser factual — *"Show HN: aferidor – an agent
 > that prices groceries on your own Android and stops at payment"*. Sem
 > "revolutionary", sem "AI-powered". Três respostas que já têm que estar prontas
 > antes de postar, porque virão nos primeiros dez comentários:
@@ -137,11 +137,11 @@ só se o resultado couber no orçamento de peso sem virar binário gigante no gi
 
 | t | Tela | Legenda (queimada, sem áudio) |
 |---|---|---|
-| 0–4 s | o celular na mão, `feira-fone tela` lendo a vitrine | *Ele lê o preço na tela.* |
-| 4–9 s | `feira compare`: R$ 8,32/L contra R$ 7,90/L | *900 ml parece mais barato. Não é.* |
+| 0–4 s | o celular na mão, `aferidor-fone tela` lendo a vitrine | *Ele lê o preço na tela.* |
+| 4–9 s | `aferidor compare`: R$ 8,32/L contra R$ 7,90/L | *900 ml parece mais barato. Não é.* |
 | 9–13 s | o veredito `MANTER` em destaque | *E mesmo assim: não troque por 5%.* |
-| 13–17 s | `feira-fone tocar 'Pagar'` → **RECUSADO** | *Pagar é com você.* |
-| 17–20 s | `github.com/yolo-labz/feira` | *O método funciona numa planilha.* |
+| 13–17 s | `aferidor-fone tocar 'Pagar'` → **RECUSADO** | *Pagar é com você.* |
+| 17–20 s | `github.com/yolo-labz/aferidor` | *O método funciona numa planilha.* |
 
 A tarja da vitrine tem que estar em todos os quadros, como já está no GIF.
 
@@ -153,7 +153,7 @@ refazer, não entra no repositório; vai como anexo de release ou link.
 
 - [ ] Terminal limpo: sem hostname, sem usuário, sem caminho da máquina
 - [ ] Só dados de fixture — nunca uma casa real
-- [ ] 100 colunas (abaixo disso a tabela do `feira` quebra a linha)
+- [ ] 100 colunas (abaixo disso a tabela do `aferidor` quebra a linha)
 - [ ] Tema claro; conferir também no modo escuro do GitHub
 - [ ] Sem notificação na tela, sem aba de navegador com dado pessoal
 - [ ] Legenda queimada, porque a maioria assiste sem som

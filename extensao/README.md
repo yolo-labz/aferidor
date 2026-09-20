@@ -43,8 +43,8 @@ Não está em loja de extensões. Carregue descompactada:
 Depois:
 
 ```bash
-feira check     # confere se as linhas novas fazem sentido
-feira advise    # o que mudou na recomendação
+aferidor check     # confere se as linhas novas fazem sentido
+aferidor advise    # o que mudou na recomendação
 ```
 
 ## Confira antes de colar
@@ -81,7 +81,7 @@ São três arquivos pequenos, sem minificação e sem dependência:
 
 - **"Nenhum preço reconhecido"** — role até os produtos aparecerem e clique de
   novo. Se persistir, o mercado provavelmente monta o preço de um jeito que o
-  coletor não reconhece; registre à mão com `feira record`.
+  coletor não reconhece; registre à mão com `aferidor record`.
 - **Página interna do navegador** (`chrome://`, loja de extensões) — bloqueada
   pelo próprio navegador, não pela extensão.
 - **Preço em imagem** — não tem o que ler. Acontece em encarte.

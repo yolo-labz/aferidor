@@ -14,7 +14,7 @@ tags: [exemplo, graos, alta-frequencia]
 > Item de exemplo. Apague este arquivo quando começar a registrar os seus.
 
 `mercado_atual` é o mercado onde a casa compra este item **hoje**. É o
-incumbente: `feira compare` mede todo mundo contra ele, e a regra de migração
+incumbente: `aferidor compare` mede todo mundo contra ele, e a regra de migração
 só o destrona se outro for consistentemente e significativamente mais barato.
 
 `ponto_de_recompra` é quantas embalagens sobrando na despensa disparam a
@@ -25,7 +25,7 @@ esperar uma promoção em vez de comprar no susto pelo preço cheio.
 
 Este item existe para demonstrar duas coisas ao mesmo tempo:
 
-1. **A regra de migração funcionando.** Rode `feira compare arroz-tio-joao-1kg`.
+1. **A regra de migração funcionando.** Rode `aferidor compare arroz-tio-joao-1kg`.
    O atacarejo online só aparece mais barato porque o preço foi normalizado: o
    pacote lá é de 5 kg, e comparar "R$ 27,45" com "R$ 6,99" sem dividir pelo
    peso não diz nada.

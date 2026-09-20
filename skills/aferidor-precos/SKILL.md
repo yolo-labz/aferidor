@@ -1,5 +1,5 @@
 ---
-name: feira-precos
+name: aferidor-precos
 description: >-
   Compares grocery prices across merchants and decides whether to switch, using
   the household's own recorded price history rather than a live search. Handles
@@ -9,7 +9,7 @@ description: >-
   kg/L/unit before comparing, so a 900 ml bottle never beats a 1 L bottle on the
   sticker alone. Applies the household's migration rule (minimum delta AND
   minimum sample count) instead of naively recommending the cheapest observed
-  price. Requires only a `feira` household repository — no phone, no browser,
+  price. Requires only a `aferidor` household repository — no phone, no browser,
   no store account.
 when_to_use:
   - "User asks where an item is cheapest, or whether a price they were quoted is good"
@@ -18,22 +18,22 @@ when_to_use:
   - "User just came back from shopping / got a receipt and wants the prices recorded"
   - "User asks for a review of the whole basket ('o que dá para economizar?')"
 when_NOT_to_use:
-  - "User wants to build this week's shopping list → use `feira-lista`"
-  - "User wants to import a Brazilian NFC-e receipt XML → use `feira-nota-fiscal`"
-  - "User wants to actually place and pay for an order → use `feira-pedido`"
+  - "User wants to build this week's shopping list → use `aferidor-lista`"
+  - "User wants to import a Brazilian NFC-e receipt XML → use `aferidor-nota-fiscal`"
+  - "User wants to actually place and pay for an order → use `aferidor-pedido`"
   - "User is asking about a product the household has never bought and has no history for — say so plainly and offer to start recording, do not search the web and present a stranger's price as the household's baseline"
 requires:
   - "python3 (3.11+ preferred; 3.9+ works with default thresholds)"
-  - "a feira household repository (a directory containing feira.toml)"
+  - "a aferidor household repository (a directory containing aferidor.toml)"
 ---
 
-# feira-precos
+# aferidor-precos
 
 Price comparison from the household's own observations.
 
 ## The one thing to get right
 
-**Never compare sticker prices.** Compare price per base unit. The `feira` CLI
+**Never compare sticker prices.** Compare price per base unit. The `aferidor` CLI
 does this for you — the whole reason it exists is that the human eye reads
 "R$ 7,49" as cheaper than "R$ 7,90" and does not read "900 ml" as 11% less
 product.
@@ -46,28 +46,28 @@ conversation and no one will be able to check your work. Run the command.
 ### 1. Locate the repository
 
 ```bash
-cd <the household repo>   # the directory holding feira.toml
-feira check               # confirms it parses; prints counts
+cd <the household repo>   # the directory holding aferidor.toml
+aferidor check               # confirms it parses; prints counts
 ```
 
-If `feira` is not on PATH, it lives at `~/.local/share/feira/bin/feira`.
-If there is no repository at all, stop and offer `feira init <dir>` — do not
+If `aferidor` is not on PATH, it lives at `~/.local/share/aferidor/bin/aferidor`.
+If there is no repository at all, stop and offer `aferidor init <dir>` — do not
 invent one.
 
 ### 2. Answer the question with the right command
 
 | The user asks | Run |
 |---|---|
-| "onde o arroz está mais barato?" | `feira compare arroz-tio-joao-1kg` |
-| "o que dá pra economizar?" / basket review | `feira advise` |
-| "quanto eu paguei da última vez?" | `feira compare <sku>` and read the `última` column |
-| "anota que o feijão tava 8,90 no atacarejo" | `feira record <sku> <mercado> 8.90 -e '1kg'` |
+| "onde o arroz está mais barato?" | `aferidor compare arroz-tio-joao-1kg` |
+| "o que dá pra economizar?" / basket review | `aferidor advise` |
+| "quanto eu paguei da última vez?" | `aferidor compare <sku>` and read the `última` column |
+| "anota que o feijão tava 8,90 no atacarejo" | `aferidor record <sku> <mercado> 8.90 -e '1kg'` |
 
 Add `--json` when you need to compute on the result rather than show it.
 
 ### 3. Report the verdict, not just the table
 
-`feira compare` returns one of four verdicts. Relay it faithfully:
+`aferidor compare` returns one of four verdicts. Relay it faithfully:
 
 - **MANTER** — stay. Say *why* it is not worth moving, including the number.
   "O atacarejo está 5% abaixo, e a regra da casa é 8%" is a useful answer.
@@ -84,7 +84,7 @@ If the user told you a price during the conversation, record it before the
 conversation ends — an unrecorded observation is a lost one:
 
 ```bash
-feira record oleo-de-soja atacarejo-online 7.90 -e '1L' -m Soya --fonte site
+aferidor record oleo-de-soja atacarejo-online 7.90 -e '1L' -m Soya --fonte site
 ```
 
 Then note *decisions* (not prices) in `DIARIO.md`, appending a new dated
@@ -124,10 +124,10 @@ item/merchant pairs need one more sample to unlock a verdict.
 
 ## Degrading gracefully
 
-- **No `feira` on PATH** → the CSV is still readable. Say so, show the user
+- **No `aferidor` on PATH** → the CSV is still readable. Say so, show the user
   `dados/observacoes.csv`, and do the comparison by hand *showing the division*
   (`7.49 / 0.9 = 8.32/L`), flagged as a manual calculation.
-- **No repository** → offer `feira init`. Do not fabricate a baseline.
+- **No repository** → offer `aferidor init`. Do not fabricate a baseline.
 - **Item not found** → check for a near-miss slug first
   (`ls itens/ | grep -i <word>`); users type `arroz` for `arroz-tio-joao-1kg`.
 

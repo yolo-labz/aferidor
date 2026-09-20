@@ -1,5 +1,5 @@
 ---
-name: feira-pedido
+name: aferidor-pedido
 description: >-
   Governs the last mile — turning an approved shopping list into a placed order.
   Handles "faz o pedido", "compra isso", "coloca no carrinho", "place the
@@ -15,15 +15,15 @@ when_to_use:
   - "User asks to resolve out-of-stock substitutions on an order in progress"
   - "An order was delivered and needs reconciling against what was charged"
 when_NOT_to_use:
-  - "The list has not been approved by the household yet → use `feira-lista` first"
-  - "User wants price research → use `feira-precos`"
+  - "The list has not been approved by the household yet → use `aferidor-lista` first"
+  - "User wants price research → use `aferidor-precos`"
   - "User asks you to save, store or reuse card details — refuse; see below"
 requires:
   - "TIER 3 (automated placement): a dedicated Android device with USB debugging, adb, and the merchant app logged in. THIS IS OPTIONAL AND USUALLY ABSENT."
   - "TIER 1 (default): nothing. A human orders from the list."
 ---
 
-# feira-pedido
+# aferidor-pedido
 
 The last mile, and the gate in front of it.
 
@@ -46,7 +46,7 @@ So the default path is:
 2. Format it so it can be pasted into the merchant's search box one line at a
    time, or read aloud in a shop.
 3. **Stop.** The human orders and pays.
-4. When the receipt arrives, come back with `feira-nota-fiscal` and record what
+4. When the receipt arrives, come back with `aferidor-nota-fiscal` and record what
    was actually charged.
 
 Say this plainly when a user asks why it will not just buy the groceries. Do not
@@ -120,7 +120,7 @@ The order is not done when it is placed. When it arrives:
 
 - Compare charged against expected, line by line.
 - Record what was substituted, what was missing, and what was refunded.
-- Import the receipt (`feira-nota-fiscal`) so the *paid* prices, not the listed
+- Import the receipt (`aferidor-nota-fiscal`) so the *paid* prices, not the listed
   ones, enter the history.
 - Append a dated entry to `DIARIO.md` covering anything surprising — a refused
   card, an antifraud block, a substitution the household hated. Six months later

@@ -13,7 +13,7 @@ ciclo fechado.
 | Camada | O que é | Exige | Valor |
 |---|---|---|---|
 | **1. Método** | o jeito de decidir | nada | ★★★★ |
-| **2. Ferramenta** | o `feira` | um computador | ★★ |
+| **2. Ferramenta** | o `aferidor` | um computador | ★★ |
 | **3. Agente** | as skills | um assistente de IA | ★★ |
 | **4a. Execução web** | fechar pedido no site | navegador | ★ |
 | **4b. Execução no app** | fechar pedido no aplicativo | **celular Android dedicado** | ★ |
@@ -33,7 +33,7 @@ funciona se você não tiver nenhuma vontade de instalar software.
 
 ## Camada 2 — a ferramenta
 
-O `feira`: um programa em Python, sem dependências, que guarda o histórico em
+O `aferidor`: um programa em Python, sem dependências, que guarda o histórico em
 arquivos de texto e faz a aritmética das seções 4, 5 e 9 do método.
 
 O que ele adiciona sobre a planilha: normalização automática de embalagem, a
@@ -48,7 +48,7 @@ doer.
 
 Duas portas para o mesmo lugar, e elas convivem:
 
-- **O servidor MCP** (`feira-mcp`) — expõe os dados e as contas a **qualquer**
+- **O servidor MCP** (`aferidor-mcp`) — expõe os dados e as contas a **qualquer**
   cliente de IA compatível. É o caminho recomendado, porque roda com assinatura
   de consumidor em vez de chave de API. Ver [como conversar](como-conversar.md).
 - **As *skills*** — instruções mais ricas, que carregam o procedimento inteiro
@@ -95,7 +95,7 @@ do pagamento.
 carteira e o fluxo de substituição. Se você tem um celular sobrando, é o melhor
 lugar para colocá-lo.
 
-Setup, regras e armadilhas: [camada 4b](../../skills/feira-pedido/referencia/tier-3-android.md).
+Setup, regras e armadilhas: [camada 4b](../../skills/aferidor-pedido/referencia/tier-3-android.md).
 
 ---
 
@@ -112,7 +112,7 @@ Isso é aplicado de dois jeitos diferentes, de propósito:
   pagamento. O servidor não alcança o celular, não conhece `adb`, não abre
   aplicativo. Não há portão para um modelo pular, nem aprovação para forjar,
   nem prompt injection que valha a pena escrever — **a capacidade não existe**.
-- **No `feira-fone`: por recusa em código.** Tocar num botão cujo texto contenha
+- **No `aferidor-fone`: por recusa em código.** Tocar num botão cujo texto contenha
   "pagar", "finalizar pedido", "confirmar pagamento", "place order" e afins é
   recusado, e só passa com `--eu-confirmo` naquela invocação específica. Não
   existe modo "confirmar sempre".

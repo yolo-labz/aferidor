@@ -1,4 +1,4 @@
-# Diário da feira
+# Diário da aferidor
 
 Registro append-only. **Nunca reescreva uma entrada antiga** — se mudou de
 ideia, escreva uma entrada nova dizendo que mudou e por quê.
@@ -19,5 +19,5 @@ Primeira meta: três semanas registrando preço de tudo que entra em casa, sem
 mudar nada na rotina de compra. Sem essa linha de base não dá para afirmar que
 qualquer coisa ficou mais barata — e "achei que economizei" não é um número.
 
-Próxima ação: registrar a próxima compra com `feira record` ou, se veio nota
-fiscal eletrônica, `feira nfce --importar`.
+Próxima ação: registrar a próxima compra com `aferidor record` ou, se veio nota
+fiscal eletrônica, `aferidor nfce --importar`.

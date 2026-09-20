@@ -33,7 +33,7 @@ Regras:
   `observacao`.
 - **Multiplicador precisa vir antes.** `6x350ml` funciona; `350ml x6` não.
 - **Não reconheceu?** Vira `1 un`. Isso é silencioso de propósito — não dá para
-  adivinhar. Rode `feira check`, que lista as linhas de onde não saiu preço
+  adivinhar. Rode `aferidor check`, que lista as linhas de onde não saiu preço
   unitário confiável.
 
 ## Escolhendo a unidade-base do item

@@ -4,11 +4,11 @@ No Brasil, boa parte do mercado de bairro não tem site nem aplicativo. Tem um
 número de WhatsApp, e o pedido é uma mensagem de texto. Ignorar isso é ignorar
 onde a compra realmente acontece.
 
-O `feira` escreve a mensagem. **Ele não envia.**
+O `aferidor` escreve a mensagem. **Ele não envia.**
 
 ```sh
-feira zap                  # o pedido do que está faltando
-feira zap oleo-de-soja     # uma pergunta de preço sobre um item
+aferidor zap                  # o pedido do que está faltando
+aferidor zap oleo-de-soja     # uma pergunta de preço sobre um item
 ```
 
 ```
@@ -17,7 +17,7 @@ Oi! Queria fazer um pedido:
 • Papel higiênico
 
 ──────────────────────────────────────────────────────────────────
-O feira não envia mensagem — ele não tem essa capacidade.
+O aferidor não envia mensagem — ele não tem essa capacidade.
 Para mandar esta, com allowlist e limite de taxa por baixo de tudo,
 use o wa (github.com/yolo-labz/wa):
 
@@ -28,7 +28,7 @@ use o wa (github.com/yolo-labz/wa):
 ## Por que o envio mora em outro programa
 
 A mesma razão de o pagamento morar no seu dedo: **a fronteira é mais forte
-quando a capacidade não existe.** O `feira` não tem código de rede, não tem
+quando a capacidade não existe.** O `aferidor` não tem código de rede, não tem
 sessão de WhatsApp, não guarda o seu número. Não há gate a burlar aqui porque
 não há porta.
 
@@ -57,14 +57,14 @@ Instalação, pareamento e o resto estão [no manual do próprio
 `wa send --body` recebe uma string e não lê nada da entrada padrão. Entre aspas
 simples comuns, `\n` chega ao vendedor como as letras `\` e `n`, e o pedido vira
 uma linha só ilegível. As aspas `$'...'` são o que faz o bash e o zsh
-transformarem `\n` em quebra de linha de verdade — por isso o `feira zap` já
+transformarem `\n` em quebra de linha de verdade — por isso o `aferidor zap` já
 imprime o comando nesse formato.
 
 ## Antes de mandar
 
 O texto é um rascunho, não um pedido pronto:
 
-1. **Confira a lista.** Ela sai do `feira falta`, que lê compras e não o
+1. **Confira a lista.** Ela sai do `aferidor falta`, que lê compras e não o
    armário. Ele sugere onde olhar; quem sabe o que tem em casa é você.
 2. **Confira o número.** Uma lista de compras para o contato errado é constrangimento,
    não prejuízo — mas é constrangimento evitável.
@@ -76,7 +76,7 @@ O texto é um rascunho, não um pedido pronto:
 - Não fecha pedido, não combina entrega, não paga. O vendedor responde, e a
   conversa é sua.
 - Não lê as respostas nem extrai preço delas. Se o vendedor mandar um preço que
-  vale a pena, registre com `feira record`.
+  vale a pena, registre com `aferidor record`.
 - Não manda em massa. Um pedido para o seu mercado é uma mensagem; o `wa` tem
   limite de taxa exatamente para que nunca vire outra coisa.
 

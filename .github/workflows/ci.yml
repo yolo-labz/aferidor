@@ -43,7 +43,7 @@ jobs:
 
       - name: Python syntax
         run: |
-          for f in bin/feira bin/feira-fone bin/feira-mcp; do
+          for f in bin/aferidor bin/aferidor-fone bin/aferidor-mcp; do
             python3 -c "import ast,sys; ast.parse(open(sys.argv[1]).read())" "$f"
           done
 
@@ -55,7 +55,7 @@ jobs:
           python3 -c "import json;json.load(open('extensao/manifest.json'))"
 
       # The real gate. Six suites: unit arithmetic plus the migration and
-      # replenishment rules, the feira-fone payment gate, the MCP protocol AND
+      # replenishment rules, the aferidor-fone payment gate, the MCP protocol AND
       # its no-payment-capability invariant, receipt import idempotency, the
       # extension collector, and a freshly created household repo.
       - name: Test suite
@@ -69,12 +69,12 @@ jobs:
         run: python3 scripts/check-assets.py
 
       - name: Installer dry run
-        run: sh install.sh --dry-run --prefix /tmp/feira-ci --casa /tmp/casa-ci
+        run: sh install.sh --dry-run --prefix /tmp/aferidor-ci --casa /tmp/casa-ci
 
       - name: Installer end to end
         run: |
-          FEIRA_BINDIR=/tmp/ci-bin FEIRA_SKILLDIR=/tmp/ci-skills/x \
-            sh install.sh --prefix /tmp/feira-e2e --casa /tmp/casa-e2e
+          AFERIDOR_BINDIR=/tmp/ci-bin AFERIDOR_SKILLDIR=/tmp/ci-skills/x \
+            sh install.sh --prefix /tmp/aferidor-e2e --casa /tmp/casa-e2e
           cd /tmp/casa-e2e
-          /tmp/ci-bin/feira check
-          /tmp/ci-bin/feira advise
+          /tmp/ci-bin/aferidor check
+          /tmp/ci-bin/aferidor advise

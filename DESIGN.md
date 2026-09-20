@@ -1,4 +1,4 @@
-# DESIGN.md — identidade visual do feira
+# DESIGN.md — identidade visual do aferidor
 
 Regras para qualquer imagem, diagrama ou peça deste repositório. Curto de
 propósito: um sistema que ninguém consegue seguir não é um sistema.
@@ -50,7 +50,7 @@ gosto.
 
 **Regra dura:** nunca use `verde` ou `vermelho` como **única** portadora de
 significado. Sempre acompanhe de texto ou forma — daltonismo vermelho-verde
-atinge ~8% dos homens, e a decisão do `feira` é literalmente verde/vermelho.
+atinge ~8% dos homens, e a decisão do `aferidor` é literalmente verde/vermelho.
 
 ## Tipografia
 

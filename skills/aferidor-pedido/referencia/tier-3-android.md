@@ -57,12 +57,12 @@ adb connect <ip>:5555
 Confirmar:
 
 ```bash
-feira-fone dispositivos
+aferidor-fone dispositivos
 ```
 
 ## A regra do serial
 
-**Se houver mais de um aparelho, fixe qual.** O `feira-fone` se recusa a agir
+**Se houver mais de um aparelho, fixe qual.** O `aferidor-fone` se recusa a agir
 sem isso, de propósito:
 
 ```bash
@@ -76,9 +76,9 @@ neste projeto.
 ## Operar
 
 ```bash
-feira-fone tela                      # o que está na tela agora
-feira-fone achar "Adicionar"         # onde está o elemento
-feira-fone tocar "Adicionar ao carrinho"
+aferidor-fone tela                      # o que está na tela agora
+aferidor-fone achar "Adicionar"         # onde está o elemento
+aferidor-fone tocar "Adicionar ao carrinho"
 ```
 
 O `tocar` resolve o elemento num dump **novo**, no momento do toque. Nunca passe
@@ -92,9 +92,9 @@ também aparece no cartão inteiro que o contém. Seja mais específico, ou
 ## O portão de pagamento é código
 
 ```
-$ feira-fone tocar "Finalizar pedido"
+$ aferidor-fone tocar "Finalizar pedido"
 
-feira-fone: REFUSED — 'Finalizar pedido' matches the payment word 'finalizar pedido'.
+aferidor-fone: REFUSED — 'Finalizar pedido' matches the payment word 'finalizar pedido'.
 
   This taps a button that spends money or contacts someone. The human
   approves it, in the moment, or it does not happen.
@@ -135,7 +135,7 @@ humano custam menos que um pedido errado.
   primeiro plano funciona, mas `pm disable-user` no app errado deixa o próprio
   aplicativo de compra sem atividade de lançamento.
 - Toques com menos de ~700 ms de intervalo têm assinatura de robô. Os
-  aplicativos pontuam ritmo de interação. O `feira-fone` já espaça e adiciona
+  aplicativos pontuam ritmo de interação. O `aferidor-fone` já espaça e adiciona
   jitter; não contorne isso com laço.
 
 ## Custo corrente

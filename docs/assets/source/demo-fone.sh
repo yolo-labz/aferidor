@@ -3,7 +3,7 @@
 #
 #   make demo-fone     # re-record and re-render (needs a real phone attached)
 #
-# This records a REAL run. `feira-fone` talks to a real, Play-certified handset
+# This records a REAL run. `aferidor-fone` talks to a real, Play-certified handset
 # over adb and reads the real accessibility tree — nothing here is mocked, and
 # the payment refusal at the end is the program refusing, not a printf.
 #
@@ -27,12 +27,12 @@
 
 set -eu
 
-FEIRA="${FEIRA:-feira}"
-FONE="${FONE:-feira-fone}"
+AFERIDOR="${AFERIDOR:-aferidor}"
+FONE="${FONE:-aferidor-fone}"
 CASA=$(mktemp -d)
 trap 'rm -rf "$CASA"' EXIT
 
-$FEIRA init "$CASA" >/dev/null
+$AFERIDOR init "$CASA" >/dev/null
 cd "$CASA"
 
 type_out() {
@@ -50,14 +50,14 @@ sleep 0.6
 
 # 1. A real phone, not an emulator. Delivery apps that hold a card check Play
 #    Integrity, and this is the line where that stops being a claim.
-type_out "feira-fone dispositivos"
+type_out "aferidor-fone dispositivos"
 $FONE dispositivos | sed -E 's/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+/R58N90XXXXX/'
 sleep 2.2
 
 # 2. Read the shop's own screen. These prices are being read out of the app,
 #    not fetched from anybody's catalogue.
 printf '\n'
-type_out "feira-fone tela"
+type_out "aferidor-fone tela"
 $FONE tela | head -12
 sleep 3.4
 
@@ -65,20 +65,20 @@ sleep 3.4
 #    litre — which is the entire argument of the project, and the reason the
 #    agent is about to pick the bottle that *looks* more expensive.
 printf '\n'
-type_out "feira compare oleo-de-soja"
-$FEIRA compare oleo-de-soja
+type_out "aferidor compare oleo-de-soja"
+$AFERIDOR compare oleo-de-soja
 sleep 3.6
 
 # 4. Build the cart. A real tap, on a real handset, verified by re-reading the
 #    screen afterwards.
 printf '\n'
-type_out "feira-fone tocar 'Adicionar Soya'"
+type_out "aferidor-fone tocar 'Adicionar Soya'"
 $FONE tocar "Adicionar Soya"
 sleep 2.6
 
 # 5. And then it stops. This is the product.
 printf '\n'
-type_out "feira-fone tocar 'Pagar'"
+type_out "aferidor-fone tocar 'Pagar'"
 if $FONE tocar "Pagar"; then
   printf '\n  DEMO FAILED: the payment button was not refused.\n'
   exit 1

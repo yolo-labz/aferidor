@@ -1,11 +1,11 @@
-# Como conversar com o feira
+# Como conversar com o aferidor
 
-O `feira` sozinho não fala com nenhuma IA. É um programa de linha de comando:
-você digita `feira advise`, ele responde uma tabela, e acabou. Nenhuma chamada
+O `aferidor` sozinho não fala com nenhuma IA. É um programa de linha de comando:
+você digita `aferidor advise`, ele responde uma tabela, e acabou. Nenhuma chamada
 de rede, nenhuma chave de API, nenhum modelo.
 
 Para conversar em português — *"onde o arroz tá mais barato?"*, *"o que falta em
-casa?"* — é preciso um **cliente de IA**, e o `feira` se conecta a ele por um
+casa?"* — é preciso um **cliente de IA**, e o `aferidor` se conecta a ele por um
 protocolo padrão. Este documento explica os três caminhos e qual serve a você.
 
 ---
@@ -23,9 +23,9 @@ protocolo padrão. Este documento explica os três caminhos e qual serve a você
 O produto funciona inteiro sem nunca falar com um modelo:
 
 ```bash
-feira advise                  # o que mudar na cesta toda
-feira compare arroz-tio-joao-1kg
-feira nfce notas/ --importar
+aferidor advise                  # o que mudar na cesta toda
+aferidor compare arroz-tio-joao-1kg
+aferidor nfce notas/ --importar
 ```
 
 Isto não é a versão capada. A [decisão](../02-o-metodo.md#5-a-regra-de-decisão)
@@ -36,19 +36,19 @@ produzi-los.
 ### Caminho 2 — MCP ⭐ recomendado
 
 **MCP** (Model Context Protocol) é um padrão aberto: o programa expõe as
-ferramentas dele, e qualquer cliente compatível pode usá-las. O `feira` traz um
-servidor MCP pronto — `feira-mcp`.
+ferramentas dele, e qualquer cliente compatível pode usá-las. O `aferidor` traz um
+servidor MCP pronto — `aferidor-mcp`.
 
 A divisão de trabalho é esta:
 
 ```
-  você  ⇄  cliente de IA  ⇄  feira-mcp  ⇄  seus arquivos
+  você  ⇄  cliente de IA  ⇄  aferidor-mcp  ⇄  seus arquivos
           (a conversa,        (os dados,
            o modelo,           as contas,
            a conta a pagar)    as regras da casa)
 ```
 
-O cliente cuida da conversa, do modelo e do pagamento. O `feira` cuida dos
+O cliente cuida da conversa, do modelo e do pagamento. O `aferidor` cuida dos
 dados. **Nenhum dos dois precisa saber como o outro funciona por dentro**, e é
 por isso que este caminho não envelhece junto com a API de um fornecedor
 específico.
@@ -64,7 +64,7 @@ dá para usar ou não.
 Descubra onde o servidor foi instalado:
 
 ```bash
-command -v feira-mcp
+command -v aferidor-mcp
 ```
 
 No arquivo de configuração de MCP do seu cliente, acrescente:
@@ -72,19 +72,19 @@ No arquivo de configuração de MCP do seu cliente, acrescente:
 ```json
 {
   "mcpServers": {
-    "feira": {
-      "command": "/caminho/que/apareceu/acima/feira-mcp",
-      "env": { "FEIRA_CASA": "/caminho/para/sua/minha-feira" }
+    "aferidor": {
+      "command": "/caminho/que/apareceu/acima/aferidor-mcp",
+      "env": { "AFERIDOR_CASA": "/caminho/para/sua/minha-casa" }
     }
   }
 }
 ```
 
-`FEIRA_CASA` aponta para o repositório da **sua casa** — a pasta que o
-`feira init` criou, com o `feira.toml` dentro. Sem isso, o servidor procura a
+`AFERIDOR_CASA` aponta para o repositório da **sua casa** — a pasta que o
+`aferidor init` criou, com o `aferidor.toml` dentro. Sem isso, o servidor procura a
 partir do diretório onde foi iniciado e provavelmente não acha.
 
-Reinicie o cliente. Se ele listar as ferramentas do `feira`, funcionou.
+Reinicie o cliente. Se ele listar as ferramentas do `aferidor`, funcionou.
 
 > Cada cliente guarda essa configuração num lugar diferente, e os nomes mudam
 > entre versões. Procure por "MCP" nas preferências do seu. Não vou inventar o
@@ -96,10 +96,10 @@ Reinicie o cliente. Se ele listar as ferramentas do `feira`, funcionou.
 Dá para conferir que o servidor responde, sem instalar nada:
 
 ```bash
-cd ~/minha-feira
+cd ~/minha-casa
 printf '%s\n' \
   '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{}}}' \
-  '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' | feira-mcp
+  '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' | aferidor-mcp
 ```
 
 Duas linhas de JSON de volta = está funcionando.
@@ -134,7 +134,7 @@ Oito ferramentas. Sete leem, uma escreve:
 ## O que ele **não** expõe — e isso é o desenho
 
 **Não existe ferramenta que faça pedido ou pague.** Nenhuma. O servidor não
-alcança o `feira-fone`, não conhece `adb`, não abre aplicativo.
+alcança o `aferidor-fone`, não conhece `adb`, não abre aplicativo.
 
 **Quem paga é você, à mão, no aplicativo do mercado.** Essa é a decisão, e ela é
 mais forte do que qualquer confirmação que eu pudesse programar: não é preciso
@@ -176,5 +176,5 @@ Fique no caminho 1. Sério.
 
 O ganho de dinheiro está em [normalizar por unidade-base](../02-o-metodo.md#4-normalizar--a-parte-que-devolve-dinheiro)
 e em [não trocar de mercado por 5%](../02-o-metodo.md#5-a-regra-de-decisão). As
-duas coisas o `feira advise` faz sozinho, de graça, sem conta em lugar nenhum.
+duas coisas o `aferidor advise` faz sozinho, de graça, sem conta em lugar nenhum.
 A conversa é conforto, não é o produto.

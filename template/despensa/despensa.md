@@ -18,9 +18,9 @@ momento em que você já está com tudo na mão.
 
 **Quantidade e ponto de recompra vão na unidade base do item** — `kg` para o
 arroz, `L` para o óleo, `un` para o papel. Um número solto (`3`) é lido nessa
-unidade; se preferir ser explícito, escreva `3 kg` e o `feira` entende igual.
+unidade; se preferir ser explícito, escreva `3 kg` e o `aferidor` entende igual.
 
-**`Confirmado em` é a coluna que faz o `feira falta` funcionar.** Sem ela o
+**`Confirmado em` é a coluna que faz o `aferidor falta` funcionar.** Sem ela o
 número é só um número: o programa não tem como saber se você contou hoje ou em
 março, então se recusa a opinar e devolve `COLETAR`. Com ela, ele mostra a
 idade da contagem junto do palpite — "contou 3 há 21 dias" — e você julga se

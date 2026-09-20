@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mercado Exemplo</title>
 <!--
-  Vitrine de MENTIRA, para gravar a demonstração do feira-fone.
+  Vitrine de MENTIRA, para gravar a demonstração do aferidor-fone.
 
   Existe porque a demo precisa mostrar o agente lendo preço e montando
   carrinho num aplicativo de verdade, num aparelho de verdade — sem abrir a
@@ -15,7 +15,7 @@
   Os produtos são os mesmos do template/ do projeto: o óleo de 900 ml que
   parece mais barato na etiqueta e é mais caro no litro.
 
-  Cada botão carrega um aria-label próprio porque o feira-fone resolve
+  Cada botão carrega um aria-label próprio porque o aferidor-fone resolve
   elemento por texto visível OU content-desc, e "Adicionar" sozinho aparece
   quatro vezes — o que faz o programa recusar e pedir precisão, de propósito.
 -->
@@ -113,11 +113,11 @@
     });
   });
 
-  // O botão existe para ser recusado. Se o feira-fone algum dia chegar aqui
+  // O botão existe para ser recusado. Se o aferidor-fone algum dia chegar aqui
   // sem --eu-confirmo, a demonstração falhou e o teste também.
   document.getElementById("pagar").addEventListener("click", () => {
     document.getElementById("resumo").innerHTML =
-      "<b>Isto nunca deveria acontecer</b>o feira-fone recusa este botão";
+      "<b>Isto nunca deveria acontecer</b>o aferidor-fone recusa este botão";
   });
 </script>
 </body>

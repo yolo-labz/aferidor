@@ -20,21 +20,21 @@ que toda decisão depende está intacta.
 Quem finaliza e paga a compra é **a pessoa**, à mão, no aplicativo do mercado.
 
 - O servidor MCP **não tem** ferramenta de pedido ou pagamento, não alcança o
-  `feira-fone` e não conhece `adb`. Um PR que adicione qualquer uma dessas
+  `aferidor-fone` e não conhece `adb`. Um PR que adicione qualquer uma dessas
   coisas será recusado, e `tests/test_mcp.py` já falha antes disso.
-- O `feira-fone` **recusa em código** tocar em botão de pagamento sem
+- O `aferidor-fone` **recusa em código** tocar em botão de pagamento sem
   `--eu-confirmo` naquela invocação. Não existe modo "confirmar sempre", e não
   vai existir.
 
 Segurança por ausência de capacidade é mais forte que segurança por
 confirmação: não depende de a confirmação estar certa. Adicionou um mercado
 cujo botão de pagamento usa outra palavra? Acrescente a palavra à lista `PERIGO`
-em `bin/feira-fone` **e** o caso em `tests/test_fone.py`. Um falso negativo ali
+em `bin/aferidor-fone` **e** o caso em `tests/test_fone.py`. Um falso negativo ali
 é uma compra que ninguém autorizou.
 
 ### 2. Zero dependência
 
-`bin/feira`, `bin/feira-fone` e `bin/feira-mcp` usam **só a biblioteca padrão do
+`bin/aferidor`, `bin/aferidor-fone` e `bin/aferidor-mcp` usam **só a biblioteca padrão do
 Python**. Sem `pip install`, sem ambiente virtual, sem cadeia de suprimento para
 auditar. A extensão não tem build.
 

@@ -1,10 +1,10 @@
 ---
-name: feira-lista
+name: aferidor-lista
 description: >-
   Builds the household's shopping list from the pantry state, the reorder
   points, the price history and the household doctrine in AGENTS.md. Handles
   "monta a lista da semana", "o que falta em casa", "preciso comprar o quê",
-  "faz a feira", "build the shopping list", "what are we out of". Produces a
+  "faz a aferidor", "build the shopping list", "what are we out of". Produces a
   list grouped by merchant, so each merchant's minimum order and delivery fee
   are visible before anything is bought, and flags items whose price is above
   the household's own historical range. Never places an order — the list is
@@ -15,15 +15,15 @@ when_to_use:
   - "User wants a list split by where to buy each thing"
   - "User asks whether to stock up on something now"
 when_NOT_to_use:
-  - "User wants to compare two specific merchants → use `feira-precos`"
-  - "User wants to place the order → use `feira-pedido`"
+  - "User wants to compare two specific merchants → use `aferidor-precos`"
+  - "User wants to place the order → use `aferidor-pedido`"
   - "The pantry file has not been touched in months — say so first; a list built on stale inventory is worse than no list, because it looks authoritative"
 requires:
-  - "a feira household repository with despensa/ and itens/ populated"
+  - "a aferidor household repository with despensa/ and itens/ populated"
   - "AGENTS.md — the household doctrine; read it before proposing anything"
 ---
 
-# feira-lista
+# aferidor-lista
 
 Turning "what's in the house" into "what to buy, and where".
 
@@ -42,7 +42,7 @@ does not enter the list because it was on sale.
 ### 1. What is actually missing
 
 ```bash
-feira falta --json
+aferidor falta --json
 ```
 
 Four verdicts, and the boring ones carry as much weight as the loud one:
@@ -68,18 +68,18 @@ Read `despensa/*.md` alongside it for the raw counts and the `Confirmado em`
 date. Say the age out loud — "contou 3 há 21 dias" — rather than presenting a
 three-week-old number as the current state. If the pantry has not been touched
 since before the last shop, the quantities are fiction: say so, and offer to
-rebuild from the last receipt (`feira-nota-fiscal`) instead of pretending.
+rebuild from the last receipt (`aferidor-nota-fiscal`) instead of pretending.
 
 To see how a household's rhythm actually looks before judging it:
 
 ```bash
-feira historico <sku>        # dated timeline, gaps, observed replenishment
+aferidor historico <sku>        # dated timeline, gaps, observed replenishment
 ```
 
 ### 2. Where each thing should come from
 
 ```bash
-feira advise --json
+aferidor advise --json
 ```
 
 Take the `mercado` from each verdict. Respect `MANTER` — the incumbent stays.
@@ -112,7 +112,7 @@ Output a plain list the human can act on: item, quantity, merchant, expected
 price, total per merchant, grand total. Then stop.
 
 **Do not place the order.** Do not open an app. Do not "get it ready to
-confirm". The list is the deliverable of this skill; ordering is `feira-pedido`
+confirm". The list is the deliverable of this skill; ordering is `aferidor-pedido`
 and it has its own gate.
 
 ## Negotiating with the other people in the house

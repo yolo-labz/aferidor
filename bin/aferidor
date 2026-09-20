@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""feira — household grocery price intelligence, in plain files.
+"""aferidor — household grocery price intelligence, in plain files.
 
 Single file on purpose: this tool is installed by a piped-curl bootstrap, so a
 reader must be able to audit the whole thing in one sitting. Standard library
@@ -31,7 +31,7 @@ from pathlib import Path
 
 VERSION = "0.1.0"
 
-# Defaults mirror the doctrine in docs/02-o-metodo.md §5. Override in feira.toml.
+# Defaults mirror the doctrine in docs/02-o-metodo.md §5. Override in aferidor.toml.
 DEFAULTS = {
     "moeda": "BRL",
     "delta_minimo_pct": 8.0,   # never switch merchant for less than this
@@ -165,17 +165,17 @@ class Casa:
 
     @classmethod
     def find(cls, start: Path | None = None) -> "Casa":
-        cur = (start or Path(os.environ.get("FEIRA_CASA", Path.cwd()))).resolve()
+        cur = (start or Path(os.environ.get("AFERIDOR_CASA", Path.cwd()))).resolve()
         for candidate in [cur, *cur.parents]:
-            if (candidate / "feira.toml").exists():
+            if (candidate / "aferidor.toml").exists():
                 return cls(candidate)
         die(
             "no household repository here.\n"
-            "  Run `feira init <directory>` to create one, or set FEIRA_CASA to point at yours."
+            "  Run `aferidor init <directory>` to create one, or set AFERIDOR_CASA to point at yours."
         )
 
     def _load_config(self) -> None:
-        path = self.root / "feira.toml"
+        path = self.root / "aferidor.toml"
         if not path.exists():
             return
         try:
@@ -294,7 +294,7 @@ def read_front_matter(path: Path) -> dict:
 
 
 def die(message: str, code: int = 1) -> None:
-    print(f"feira: {message}", file=sys.stderr)
+    print(f"aferidor: {message}", file=sys.stderr)
     raise SystemExit(code)
 
 
@@ -637,7 +637,7 @@ def cmd_init(args) -> int:
     template = Path(__file__).resolve().parent.parent / "template"
     if not template.is_dir():
         die(f"template directory not found next to the executable ({template})")
-    if (dest / "feira.toml").exists() and not args.forcar:
+    if (dest / "aferidor.toml").exists() and not args.forcar:
         die(f"{dest} already holds a household repository. Use --forcar to overwrite the config.")
 
     copied, skipped = 0, 0
@@ -664,8 +664,8 @@ def cmd_init(args) -> int:
     print("Next:")
     print(f"  1. cd {dest}")
     print("  2. edit AGENTS.md    — your household's rules, in your own words")
-    print("  3. edit feira.toml   — thresholds and merchants")
-    print("  4. feira record --help")
+    print("  3. edit aferidor.toml   — thresholds and merchants")
+    print("  4. aferidor record --help")
     return 0
 
 
@@ -673,7 +673,7 @@ def _rebase_seed_dates(csv_path: Path) -> dt.timedelta | None:
     """Slide the example observations forward so the newest one is ~a week ago.
 
     Without this the shipped template ages out of `janela_dias` and a first-time
-    user's very first `feira advise` prints nothing — the worst possible first
+    user's very first `aferidor advise` prints nothing — the worst possible first
     impression for a tool whose whole pitch is 'it tells you what to change'.
     Only touches rows the template marked as examples.
 
@@ -707,7 +707,7 @@ def _rebase_despensa_dates(path: Path, shift: dt.timedelta) -> None:
     """Move the example pantry counts by the same shift as the observations.
 
     A count frozen in the template while the purchases slide forward would make
-    `feira falta` report a count aged by however long ago the template was
+    `aferidor falta` report a count aged by however long ago the template was
     written — which reads as a bug and teaches the wrong thing on day one.
     """
     if not path.exists():
@@ -755,7 +755,7 @@ def cmd_compare(args) -> int:
     sku = slugify(args.sku)
     rows = [r for r in casa.read_observations() if r["sku"] == sku]
     if not rows:
-        die(f"no observations for '{sku}'. Record one with: feira record {sku} <merchant> <price>")
+        die(f"no observations for '{sku}'. Record one with: aferidor record {sku} <merchant> <price>")
 
     by_merchant = summarise(rows, casa.config["janela_dias"])
     if not by_merchant:
@@ -1027,13 +1027,13 @@ def cmd_zap(args) -> int:
                 nome = casa.read_item(sku).get("item") or sku
                 pedir.append(nome)
         if not pedir:
-            print("\n  Nada a pedir — `feira falta` não apontou nenhum item.\n")
+            print("\n  Nada a pedir — `aferidor falta` não apontou nenhum item.\n")
             return 0
         corpo = "Oi! Queria fazer um pedido:\n" + "\n".join(f"• {p}" for p in pedir)
 
     print(f"\n{corpo}\n")
     print("─" * 66)
-    print("O feira não envia mensagem — ele não tem essa capacidade.")
+    print("O aferidor não envia mensagem — ele não tem essa capacidade.")
     print("Para mandar esta, com allowlist e limite de taxa por baixo de tudo,")
     print("use o wa (github.com/yolo-labz/wa):\n")
     print("  wa allow add <numero>@s.whatsapp.net --actions send")
@@ -1334,11 +1334,11 @@ def cmd_selftest(args) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        prog="feira",
+        prog="aferidor",
         description="Household grocery price intelligence, stored in plain files.",
-        epilog="Docs: https://github.com/yolo-labz/feira  —  `feira <command> --help` for details.",
+        epilog="Docs: https://github.com/yolo-labz/aferidor  —  `aferidor <command> --help` for details.",
     )
-    p.add_argument("--version", action="version", version=f"feira {VERSION}")
+    p.add_argument("--version", action="version", version=f"aferidor {VERSION}")
     sub = p.add_subparsers(dest="comando", required=True)
 
     s = sub.add_parser("init", help="create a household repository")

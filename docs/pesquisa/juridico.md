@@ -95,7 +95,7 @@ interação humana na hora; guardar credencial de pagamento; aceitar
 automaticamente substituição em item restrito; repetir tentativa após recusa —
 recusa costuma ser regra antifraude que a repetição escala.
 
-No `feira-fone` isso é **recusa em código**, não parágrafo em documentação.
+No `aferidor-fone` isso é **recusa em código**, não parágrafo em documentação.
 
 ## Se houver receita [confirmar tudo com contador]
 

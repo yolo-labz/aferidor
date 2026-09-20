@@ -24,7 +24,7 @@ function desenhar() {
     vazio.textContent =
       "Nenhum preço reconhecido nesta página. Isso é comum em listas que só " +
       "carregam ao rolar — role até ver os produtos e clique de novo. " +
-      "Se persistir, registre à mão com `feira record`.";
+      "Se persistir, registre à mão com `aferidor record`.";
     lista.append(vazio);
     return;
   }

@@ -16,7 +16,7 @@ tags: [exemplo, mercearia]
 **Este é o item mais importante do template.** Ele existe para mostrar o erro
 que o método inteiro foi construído para evitar.
 
-Rode `feira compare oleo-de-soja` e olhe as duas colunas:
+Rode `aferidor compare oleo-de-soja` e olhe as duas colunas:
 
 | | preço na etiqueta | preço por litro |
 |---|---:|---:|
@@ -33,7 +33,7 @@ virou 450 g, papel higiênico de 30 m que virou 20 m, e iogurte de 1 L que virou
 o Código de Defesa do Consumidor obriga a informar a mudança na embalagem por
 um tempo, não para sempre.
 
-A única defesa é normalizar antes de comparar. O `feira` faz isso sozinho: você
+A única defesa é normalizar antes de comparar. O `aferidor` faz isso sozinho: você
 escreve `900ml` no campo `embalagem` e ele divide. É a coisa mais chata e mais
 lucrativa do programa.
 

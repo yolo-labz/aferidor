@@ -18,6 +18,6 @@ updates:
       - dependencies
       - github-actions
 
-# No other ecosystems on purpose: feira is standard-library Python with zero
+# No other ecosystems on purpose: aferidor is standard-library Python with zero
 # runtime dependencies, and the browser extension has no build step. There is
 # no lockfile to bump because there is nothing to lock.

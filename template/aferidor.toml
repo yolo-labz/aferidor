@@ -1,4 +1,4 @@
-# feira — configuração da casa
+# aferidor — configuração da casa
 #
 # Edite à vontade. Tudo aqui é opinião da sua casa, não regra do programa.
 
@@ -29,6 +29,6 @@ amostras_minimas = 3
 janela_dias = 90
 
 [privacidade]
-# Estes campos NUNCA devem entrar em arquivo versionado. O `feira check`
+# Estes campos NUNCA devem entrar em arquivo versionado. O `aferidor check`
 # reclama se encontrar algo parecido. Veja docs/explicacao/privacidade.md.
 proibido_no_repo = ["cpf", "cartao", "cvv", "senha", "token", "endereco_completo"]
