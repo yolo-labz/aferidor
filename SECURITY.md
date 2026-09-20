@@ -2,11 +2,59 @@
 
 ## Como reportar
 
-Encontrou algo que expõe dados ou permite gasto não autorizado? Abra uma issue
-com o rótulo `security` em <https://github.com/yolo-labz/aferidor/issues>, ou, se o
-problema for explorável por terceiros, mande em privado antes de publicar.
+O canal é o aviso de segurança privado do GitHub — um formulário que abre uma
+conversa privada entre você e o mantenedor, e que só fica pública quando existe
+correção:
 
-Não há programa de recompensa. Há gratidão e crédito no changelog.
+<https://github.com/yolo-labz/aferidor/security/advisories/new>
+
+**Não abra issue pública para falha explorável.** Issue é indexada em minutos;
+aviso privado só aparece quando a correção sai.
+
+Quando o assunto *não* for sensível — documentação errada, dúvida sobre o modelo
+de ameaça abaixo, crítica ao instalador —, a issue normal serve e é bem-vinda.
+
+Não existe endereço de e-mail de segurança deste projeto, e não existe programa
+de recompensa. Existe crédito no changelog, se você quiser.
+
+### O que um relatório útil traz
+
+- o que quebra — e o que alguém ganha explorando isso;
+- como reproduzir, comando a comando, no commit em que você testou
+  (`git rev-parse HEAD`);
+- se a falha contraria algo que o projeto promete não fazer. O modelo de ameaça
+  abaixo **é parte da especificação**: falhar ali é falha de verdade, não
+  discussão de design.
+
+## Versões suportadas
+
+| Versão | Recebe correção? |
+|---|---|
+| `main` — último commit | **sim**; hoje é a única versão que existe |
+| commit antigo, fixado com `--version <sha>` | **não** — o pin existe para você reproduzir o que leu, não para sustentar uma linha de manutenção |
+| instalação antiga com o nome `feira` | **não** — o instalador a remove desde 20/09/2026 |
+
+Ainda **não há release publicada** (veja o
+[README](README.md#instalação)); o padrão é o `main`, que é conteúdo mutável.
+Quando houver tag, a política não muda: a última tag recebe correção, e nada
+mais. Não existe branch de manutenção, não existe LTS e não existe backport.
+
+## Prazo de resposta (o que dá para prometer sem mentir)
+
+O projeto é mantido por uma pessoa, sem plantão e sem SLA. Prometer 24 horas
+seria inventar um número. O compromisso é de melhor esforço, e é este:
+
+| Etapa | Prazo |
+|---|---|
+| acuso de recebimento | até 7 dias |
+| primeira avaliação — é falha? qual o alcance? | até 14 dias |
+| correção de falha explorável | alvo de 30 dias |
+| crédito no changelog | junto da correção |
+
+Se o alvo de 30 dias estourar, o motivo aparece no próprio aviso privado: a
+thread continua aberta e você não fica sem resposta. Se algum prazo acima furar
+sem explicação, cobre na mesma thread — o prazo é parte do que está sendo
+prometido, não enfeite.
 
 ## O modelo de ameaça
 
