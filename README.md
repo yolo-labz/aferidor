@@ -1,9 +1,9 @@
 <p align="center">
-  <a href="https://github.com/yolo-labz/feira/actions/workflows/ci.yml"><img src="https://github.com/yolo-labz/feira/actions/workflows/ci.yml/badge.svg" alt="Estado do CI"></a>
+  <a href="https://github.com/yolo-labz/aferidor/actions/workflows/ci.yml"><img src="https://github.com/yolo-labz/aferidor/actions/workflows/ci.yml/badge.svg" alt="Estado do CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licença-Apache--2.0-1A7F37" alt="Licença Apache-2.0"></a>
 </p>
 
-# feira
+# aferidor
 
 **Para onde este projeto vai: um agente que pesquisa preço dentro dos
 aplicativos de entrega, no seu celular, monta o carrinho — e para. Você confere
@@ -11,7 +11,7 @@ e finaliza a compra com o dedo, no app.**
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/rendered/demo-fone-dark.gif">
-  <img src="docs/assets/rendered/demo-fone.gif" alt="Terminal: feira-fone dispositivos mostra um moto g06 conectado; feira-fone tela lê a vitrine e imprime os preços — óleo Liza 900 ml a R$ 7,49 e óleo Soya 1 L a R$ 7,90; feira compare oleo-de-soja mostra que o de 900 ml sai a R$ 8,32 por litro e o de 1 L a R$ 7,90, com veredito MANTER porque a diferença de 5,1% fica abaixo do limite de 8%; feira-fone tocar Adicionar Soya toca o botão e confirma que a tela mudou; feira-fone tocar Pagar é RECUSADO porque o texto casa com a palavra de pagamento. Uma tarja vermelha no rodapé de todos os quadros avisa que a vitrine é local e não é um aplicativo de entrega.">
+  <img src="docs/assets/rendered/demo-fone.gif" alt="Terminal: aferidor-fone dispositivos mostra um moto g06 conectado; aferidor-fone tela lê a vitrine e imprime os preços — óleo Liza 900 ml a R$ 7,49 e óleo Soya 1 L a R$ 7,90; aferidor compare oleo-de-soja mostra que o de 900 ml sai a R$ 8,32 por litro e o de 1 L a R$ 7,90, com veredito MANTER porque a diferença de 5,1% fica abaixo do limite de 8%; aferidor-fone tocar Adicionar Soya toca o botão e confirma que a tela mudou; aferidor-fone tocar Pagar é RECUSADO porque o texto casa com a palavra de pagamento. Uma tarja vermelha no rodapé de todos os quadros avisa que a vitrine é local e não é um aplicativo de entrega.">
 </picture>
 
 Gravação de verdade: aparelho de verdade, tela lida de verdade, pagamento
@@ -26,10 +26,10 @@ esperar um botão:
 
 | | |
 |---|---|
-| ✅ hoje | num Android físico, o `feira-fone` lê a tela, decide, monta o carrinho e recusa o pagamento — foi assim que o vídeo acima foi gravado, contra uma **vitrine de demonstração** |
+| ✅ hoje | num Android físico, o `aferidor-fone` lê a tela, decide, monta o carrinho e recusa o pagamento — foi assim que o vídeo acima foi gravado, contra uma **vitrine de demonstração** |
 | ⏳ ainda não | fazer isso **dentro de um aplicativo de entrega real**. Nenhum foi automatizado, e não há lista de apps suportados |
 
-O `feira-fone` é **experimental**: uma casa, um aparelho, sem release. As camadas
+O `aferidor-fone` é **experimental**: uma casa, um aparelho, sem release. As camadas
 de baixo — o método e o CLI — são **estáveis**.
 
 > **Sem celular nenhum, o projeto já serve para alguma coisa:** o CLI compara o
@@ -46,18 +46,18 @@ de baixo — o método e o CLI — são **estáveis**.
 
 ## A demo
 
-[Volte ao vídeo lá em cima](#feira) — aqui está o que ele mostra, em texto, para
+[Volte ao vídeo lá em cima](#aferidor) — aqui está o que ele mostra, em texto, para
 quem prefere ler ou usa leitor de tela.
 
 O ciclo inteiro, em cinco comandos:
 
 | | |
 |---|---|
-| `feira-fone dispositivos` | um aparelho físico, homologado. Emulador não serve |
-| `feira-fone tela` | lê os preços **da tela do app**, não de um catálogo |
-| `feira compare` | decide — e aqui a etiqueta mais barata **perde** |
-| `feira-fone tocar` | monta o carrinho, e confere que a tela mudou |
-| `feira-fone tocar 'Pagar'` | **RECUSADO** |
+| `aferidor-fone dispositivos` | um aparelho físico, homologado. Emulador não serve |
+| `aferidor-fone tela` | lê os preços **da tela do app**, não de um catálogo |
+| `aferidor compare` | decide — e aqui a etiqueta mais barata **perde** |
+| `aferidor-fone tocar` | monta o carrinho, e confere que a tela mudou |
+| `aferidor-fone tocar 'Pagar'` | **RECUSADO** |
 
 Repare no terceiro passo, que é onde o dinheiro está: o óleo de **900 ml a
 R$ 7,49** sai a **R$ 8,32 por litro**; o de **1 litro a R$ 7,90** sai a
@@ -71,7 +71,7 @@ Um agente que só busca "o mais barato" erra as duas coisas.
 > com os mesmos itens de exemplo do `template/`. Gravar contra um aplicativo de
 > entrega real significaria abrir a conta de alguém — com endereço e histórico
 > de pedidos — para fazer material de divulgação, e dirigir o app de um terceiro
-> para isso. O `feira-fone`, o `adb`, a leitura da tela e a recusa são reais.
+> para isso. O `aferidor-fone`, o `adb`, a leitura da tela e a recusa são reais.
 > Quadro estático: [`demo-fone.png`](docs/assets/rendered/demo-fone.png).
 > Gravação: [`demo-fone.cast`](docs/assets/source/demo-fone.cast).
 
@@ -98,7 +98,7 @@ README trata delas.
 ## Em 30 segundos
 
 Você registra o que pagou — digitando, ou importando a nota fiscal eletrônica
-(NFC-e) que o mercado já emite. O `feira` divide cada preço pelo conteúdo da
+(NFC-e) que o mercado já emite. O `aferidor` divide cada preço pelo conteúdo da
 embalagem e responde **uma** pergunta: *vale a pena mudar alguma coisa?*
 
 Na maior parte das semanas a resposta é **não**, e ele diz isso. Trocar de
@@ -106,9 +106,9 @@ mercado custa frete, pedido mínimo e tempo — por isso existe um limiar, e por
 isso o veredito mais comum é *não mude nada*.
 
 A pesquisa de preço acontece **nas suas próprias contas**: a
-[extensão](extensao/) lê a página que você abriu, e o `feira-fone` lê os
+[extensão](extensao/) lê a página que você abriu, e o `aferidor-fone` lê os
 aplicativos de entrega no seu celular. Nada disso é um servidor consultando um
-catálogo por aí — é o que a sua conta vê, no seu aparelho: o `feira` não chama
+catálogo por aí — é o que a sua conta vê, no seu aparelho: o `aferidor` não chama
 serviço externo nenhum; quem fala com a rede são o seu navegador e os apps do
 seu celular, na sua sessão.
 
@@ -122,7 +122,7 @@ software só automatiza a conta.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/rendered/demo-dark.gif">
-  <img src="docs/assets/rendered/demo.gif" alt="Terminal: feira init cria um repositório de exemplo; feira compare oleo-de-soja mostra atacarejo-online a R$ 7,90 por litro contra mercado-do-bairro a R$ 8,32, com o veredito MANTER porque a diferença de 5,1% está abaixo do limite de 8%; feira advise lista MIGRAR para o arroz, COLETAR para o papel higiênico e MANTER para o resto.">
+  <img src="docs/assets/rendered/demo.gif" alt="Terminal: aferidor init cria um repositório de exemplo; aferidor compare oleo-de-soja mostra atacarejo-online a R$ 7,90 por litro contra mercado-do-bairro a R$ 8,32, com o veredito MANTER porque a diferença de 5,1% está abaixo do limite de 8%; aferidor advise lista MIGRAR para o arroz, COLETAR para o papel higiênico e MANTER para o resto.">
 </picture>
 
 Duas coisas acontecem aí, e as duas importam:
@@ -131,12 +131,12 @@ Duas coisas acontecem aí, e as duas importam:
    mercado e a mediana.
 2. **Mesmo assim, ele manda ficar onde está.** A política padrão não recomenda
    trocar abaixo de 8% de diferença, com pelo menos 3 observações no mercado
-   desafiante. [Por que esses números](skills/feira-precos/referencia/regra-de-migracao.md).
+   desafiante. [Por que esses números](skills/aferidor-precos/referencia/regra-de-migracao.md).
 
 Essa segunda parte é o produto. A primeira é aritmética.
 
 > Os números saem dos dados de exemplo em `template/` — rode
-> `feira compare oleo-de-soja` e você vê exatamente a mesma coisa. Quadro
+> `aferidor compare oleo-de-soja` e você vê exatamente a mesma coisa. Quadro
 > estático: [`demo.png`](docs/assets/rendered/demo.png). Gravação original em
 > asciicast: [`demo.cast`](docs/assets/source/demo.cast).
 
@@ -150,7 +150,7 @@ opcional; veja o [README dela](extensao/README.md).)
 isso:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/yolo-labz/feira/main/install.sh -o install.sh
+curl -fsSL https://raw.githubusercontent.com/yolo-labz/aferidor/main/install.sh -o install.sh
 less install.sh                    # ~250 linhas, sem minificação
 sh install.sh --dry-run            # mostra tudo que faria, sem escrever nada
 sh install.sh
@@ -159,7 +159,7 @@ sh install.sh
 Se você confia no repositório e quer uma linha só:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/yolo-labz/feira/main/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/yolo-labz/aferidor/main/install.sh | sh
 ```
 
 O instalador se recusa a rodar como root, instala só dentro do seu `$HOME`, não
@@ -171,31 +171,31 @@ mutável. Enquanto isso, dá pra fixar exatamente o que você leu:
 
 ```sh
 sh install.sh --version <sha-do-commit-que-você-leu>
-FEIRA_SHA256=<hash-que-você-esperava> sh install.sh   # aborta se não bater
+AFERIDOR_SHA256=<hash-que-você-esperava> sh install.sh   # aborta se não bater
 ```
 
 Primeiro resultado, em menos de um minuto:
 
 ```sh
-feira init ~/minha-feira
-cd ~/minha-feira
-feira advise
+aferidor init ~/minha-casa
+cd ~/minha-casa
+aferidor advise
 ```
 
-O repositório já vem com dados de exemplo, então `feira advise` responde alguma
+O repositório já vem com dados de exemplo, então `aferidor advise` responde alguma
 coisa desde o primeiro minuto.
 
 ## Começar pelas notas que você já tem
 
-Você não precisa digitar meses de compra para o `feira` ter o que dizer. Baixe
+Você não precisa digitar meses de compra para o `aferidor` ter o que dizer. Baixe
 os XML das suas notas fiscais no portal da SEFAZ do seu estado e aponte a pasta:
 
 ```sh
-feira nfce ~/notas             # lê e mostra, sem gravar nada
-feira nfce ~/notas --importar  # grava como observações
+aferidor nfce ~/notas             # lê e mostra, sem gravar nada
+aferidor nfce ~/notas --importar  # grava como observações
 ```
 
-A leitura é local: o `feira` abre o arquivo que você baixou e não fala com a
+A leitura é local: o `aferidor` abre o arquivo que você baixou e não fala com a
 SEFAZ nem com ninguém. **Importar duas vezes é seguro** — cada nota é gravada
 com a chave de acesso, e a segunda passada pula o que já entrou:
 
@@ -212,9 +212,9 @@ estiverem separados cada um conta como uma amostra só.
 ## O que a casa comprou, e quando
 
 ```sh
-feira historico                    # gasto por mês
-feira historico oleo-de-soja       # a linha do tempo de um item
-feira historico --desde 2026-01-01 --mercado atacarejo-online
+aferidor historico                    # gasto por mês
+aferidor historico oleo-de-soja       # a linha do tempo de um item
+aferidor historico --desde 2026-01-01 --mercado atacarejo-online
 ```
 
 ```
@@ -233,7 +233,7 @@ feira historico --desde 2026-01-01 --mercado atacarejo-online
 ## O que talvez esteja faltando
 
 ```sh
-feira falta
+aferidor falta
 ```
 
 ```
@@ -269,22 +269,22 @@ E a estimativa se apoia num **ritmo lento** da casa — um quartil baixo, não a
 mediana e não o mínimo. O mínimo parece a escolha conservadora e é uma armadilha:
 ele só pode cair conforme você registra mais compras, então o programa ficaria
 mais calado quanto mais aprendesse, e uma viagem de duas semanas calaria o item
-para sempre. Tem um teste no `feira selftest` que quebra se alguém trocar de volta.
+para sempre. Tem um teste no `aferidor selftest` que quebra se alguém trocar de volta.
 
 ## Mandar o pedido para o vendedor
 
 Boa parte do mercado de bairro não tem site — tem um número de WhatsApp. O
-`feira` escreve a mensagem; **enviar é com você**:
+`aferidor` escreve a mensagem; **enviar é com você**:
 
 ```sh
-feira zap                  # o pedido do que está faltando
-feira zap oleo-de-soja     # uma pergunta de preço
+aferidor zap                  # o pedido do que está faltando
+aferidor zap oleo-de-soja     # uma pergunta de preço
 ```
 
 Ele imprime o texto e o comando pronto para o
 [`wa`](https://github.com/yolo-labz/wa) — um daemon de WhatsApp com lista de
 permissão por número, limite de taxa sem `--force` e registro do que saiu. O
-`feira` não tem código de rede, não guarda o seu número e não consegue enviar
+`aferidor` não tem código de rede, não guarda o seu número e não consegue enviar
 nada: [a mesma fronteira do pagamento](docs/how-to/whatsapp-com-o-wa.md), pelo
 mesmo motivo.
 
@@ -304,20 +304,20 @@ Ela existe em três alturas diferentes, e nenhuma delas é um parágrafo de READ
 
 | Onde | O que impede |
 |---|---|
-| `feira-fone` | tocar num botão de pagamento é recusado sem `--eu-confirmo` **naquela invocação**; não existe modo "confirmar sempre" |
-| `feira-mcp` | a ferramenta de pagar **não existe** — não há portão para um modelo contornar, nem aprovação para forjar |
-| `feira` | não tem código de rede: não fala com mercado, com API nem com servidor nenhum |
+| `aferidor-fone` | tocar num botão de pagamento é recusado sem `--eu-confirmo` **naquela invocação**; não existe modo "confirmar sempre" |
+| `aferidor-mcp` | a ferramenta de pagar **não existe** — não há portão para um modelo contornar, nem aprovação para forjar |
+| `aferidor` | não tem código de rede: não fala com mercado, com API nem com servidor nenhum |
 
 A terceira linha é a mais forte das três, e é a mais fácil de subestimar:
 **segurança por ausência de capacidade.** Um teste garante que nenhuma
 ferramenta MCP consiga pedir ou pagar, e ele foi validado ao contrário —
 plantando uma ferramenta de pagamento falsa para ver o teste quebrar.
 
-[Como montar a camada do celular](skills/feira-pedido/referencia/tier-3-android.md).
+[Como montar a camada do celular](skills/aferidor-pedido/referencia/tier-3-android.md).
 
 ## Por que não é mais um comparador de preços
 
-| | Comparador de preços | `feira` |
+| | Comparador de preços | `aferidor` |
 |---|---|---|
 | De onde vem o preço | anunciado pela loja | **o que você pagou** (nota fiscal) e o que a **sua conta** vê no app |
 | O que ele sabe da sua casa | nada | o que vocês consomem e a que preço |
@@ -333,10 +333,10 @@ sozinhas e não exigem nada; a quarta é onde o ciclo fecha.
 ```mermaid
 flowchart TD
     M["<b>1 · Método</b><br/>caderno ou planilha<br/><i>não precisa de nada</i>"]
-    F["<b>2 · feira</b><br/>histórico, normalização por kg/L,<br/>regra de migração<br/><i>um computador</i>"]
-    A["<b>3 · Agente</b><br/>feira-mcp — pergunta em português<br/><i>um cliente de IA</i>"]
+    F["<b>2 · aferidor</b><br/>histórico, normalização por kg/L,<br/>regra de migração<br/><i>um computador</i>"]
+    A["<b>3 · Agente</b><br/>aferidor-mcp — pergunta em português<br/><i>um cliente de IA</i>"]
     E["<b>4a · Extensão</b><br/>lê preço da página aberta<br/><i>um navegador</i>"]
-    P["<b>4b · feira-fone</b><br/>monta o carrinho no app<br/><i>Android físico homologado</i>"]
+    P["<b>4b · aferidor-fone</b><br/>monta o carrinho no app<br/><i>Android físico homologado</i>"]
     H(["<b>Você finaliza e paga</b><br/>à mão, no app do mercado"])
 
     M --> F
@@ -355,10 +355,10 @@ flowchart TD
 ```
 
 **Em prosa, para quem usa leitor de tela:** o método (camada 1) não precisa de
-nada além de papel. O `feira` (camada 2) automatiza a aritmética dele num
-computador. Em cima disso, um agente de IA consulta os dados pelo `feira-mcp`
+nada além de papel. O `aferidor` (camada 2) automatiza a aritmética dele num
+computador. Em cima disso, um agente de IA consulta os dados pelo `aferidor-mcp`
 (camada 3), uma extensão captura preços da página que você já está vendo (4a), e
-o `feira-fone` pesquisa preço dentro dos aplicativos de entrega no seu celular e
+o `aferidor-fone` pesquisa preço dentro dos aplicativos de entrega no seu celular e
 monta o carrinho (4b) — que é onde o ciclo fecha. **O software para no botão de
 pagar**: ele recusa esse toque, e só segue se a pessoa confirmar naquela
 invocação, com `--eu-confirmo`. Quem decide pagar é sempre a pessoa; o toque em
@@ -367,11 +367,11 @@ Detalhes em [as quatro camadas](docs/explicacao/camadas.md).
 
 ## Conversar com ele
 
-O `feira` sozinho não fala com nenhuma IA. Ele expõe um **servidor MCP**
-(`feira-mcp`) que clientes compatíveis com o protocolo podem consultar — o
-cliente cuida da conversa, do modelo e da conta; o `feira` cuida dos dados.
+O `aferidor` sozinho não fala com nenhuma IA. Ele expõe um **servidor MCP**
+(`aferidor-mcp`) que clientes compatíveis com o protocolo podem consultar — o
+cliente cuida da conversa, do modelo e da conta; o `aferidor` cuida dos dados.
 
-Assim o **`feira` não pede chave de API a ninguém** — e o servidor fala só pela
+Assim o **`aferidor` não pede chave de API a ninguém** — e o servidor fala só pela
 entrada e saída padrão, com o cliente na sua máquina, sem abrir porta de rede.
 (O cliente de IA que você escolher pode pedir a chave dele.)
 
@@ -393,14 +393,14 @@ parte que não depende de tecnologia, e é a parte que economiza dinheiro.
 
 Também: [privacidade](docs/explicacao/privacidade.md) ·
 [a extensão](extensao/README.md) ·
-[a camada do celular](skills/feira-pedido/referencia/tier-3-android.md) ·
+[a camada do celular](skills/aferidor-pedido/referencia/tier-3-android.md) ·
 [pesquisa](docs/pesquisa/) · [identidade visual](DESIGN.md)
 
 ## Estado, sem maquiagem
 
 Versão 0.1.0, **sem release publicada**. Roda diariamente numa casa em Recife
 desde maio de 2026. **Não há instalação externa conhecida** — se você for a
-primeira, [abra uma issue](https://github.com/yolo-labz/feira/issues) contando o
+primeira, [abra uma issue](https://github.com/yolo-labz/aferidor/issues) contando o
 que quebrou. É a contribuição mais útil possível agora.
 
 As camadas não estão no mesmo ponto, e vale saber qual é qual antes de contar
@@ -409,10 +409,10 @@ com alguma:
 | Camada | Estado |
 |---|---|
 | o método, numa planilha | estável — não depende deste repositório para nada |
-| `feira` (CLI) | estável, com suíte de testes que roda no CI |
-| `feira-mcp` | estável; 11 ferramentas, nenhuma capaz de pedir ou pagar |
+| `aferidor` (CLI) | estável, com suíte de testes que roda no CI |
+| `aferidor-mcp` | estável; 11 ferramentas, nenhuma capaz de pedir ou pagar |
 | extensão de navegador | funciona, sem loja — carregada como extensão sem empacotar |
-| `feira-fone` (o celular) | **experimental** — uma casa, um aparelho, sem lista de apps suportados |
+| `aferidor-fone` (o celular) | **experimental** — uma casa, um aparelho, sem lista de apps suportados |
 
 A demo do celular é uma gravação real, mas contra uma vitrine de mentira. Nenhum
 aplicativo de entrega real foi automatizado para produzir material deste
@@ -434,8 +434,8 @@ Sem rede, sem celular, sem navegador. Cinco suítes, e o que cada uma protege:
 | Suíte | Falha se… |
 |---|---|
 | unidades e regra | `900ml` parar de virar 0,9 L, ou a regra de 8%/3 amostras mudar sem querer |
-| `feira-fone` | um botão de pagamento deixar de ser recusado |
-| `feira-mcp` | surgir uma ferramenta MCP capaz de pedir ou pagar |
+| `aferidor-fone` | um botão de pagamento deixar de ser recusado |
+| `aferidor-mcp` | surgir uma ferramenta MCP capaz de pedir ou pagar |
 | extensão | o coletor ler o preço como nome de produto, ou errar `6x350ml` |
 | template | um repositório recém-criado não responder aos comandos |
 
@@ -451,14 +451,14 @@ automatizar qualquer coisa que gaste dinheiro.
 
 ### In English
 
-**feira** is an agent that researches prices **inside the delivery apps on a
+**aferidor** is an agent that researches prices **inside the delivery apps on a
 phone you own**, builds the cart, and then stops. You check it and tap pay
 yourself.
 
 It does not stop because it ran out of road. That last step is a deliberate
 boundary: an agent that gets one order wrong costs more in trust than the method
 saves in a month, and it is you, not the software, who argues with the shop and
-the card issuer. The boundary is code — `feira-fone` refuses to tap a payment
+the card issuer. The boundary is code — `aferidor-fone` refuses to tap a payment
 button without `--eu-confirmo` on that exact invocation, and the MCP server has
 no payment tool to reach for at all.
 

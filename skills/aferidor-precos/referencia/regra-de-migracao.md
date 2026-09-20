@@ -48,7 +48,7 @@ Se a casa comprar semanalmente, três amostras levam três semanas. **Essas trê
 semanas não são tempo perdido, são o método funcionando.** Um sistema que
 recomenda na primeira semana está inventando.
 
-O `feira` usa **mediana**, não média, exatamente porque uma promoção isolada
+O `aferidor` usa **mediana**, não média, exatamente porque uma promoção isolada
 não deve puxar o resultado. Com n=3, a mediana é o preço do meio: a promoção
 fica visível na coluna `mín` e não contamina a decisão.
 
@@ -71,7 +71,7 @@ acumula amostras suficientes.
   de fato, e só compare dentro desse conjunto.
 - **Não considera frete automaticamente.** Ela recomenda item a item; agrupar as
   migrações num pedido só, respeitando pedido mínimo, é trabalho do
-  `feira-lista`.
+  `aferidor-lista`.
 - **Não sabe de conveniência.** O mercado da esquina que entrega em 20 minutos
   tem valor que não aparece em R$/kg. Se a casa quer isso, suba o
   `delta_minimo_pct` — é literalmente quanto você está disposto a pagar pela
@@ -79,7 +79,7 @@ acumula amostras suficientes.
 
 ## Onde mexer
 
-`feira.toml`, seção `[comparacao]`:
+`aferidor.toml`, seção `[comparacao]`:
 
 ```toml
 [comparacao]

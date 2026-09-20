@@ -18,8 +18,8 @@ import sys
 import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-FEIRA = ROOT / "bin" / "feira"
-MCP = ROOT / "bin" / "feira-mcp"
+AFERIDOR = ROOT / "bin" / "aferidor"
+MCP = ROOT / "bin" / "aferidor-mcp"
 
 falhas = []
 
@@ -43,7 +43,7 @@ def session(casa, messages):
 
 
 with tempfile.TemporaryDirectory() as tmp:
-    subprocess.run([sys.executable, str(FEIRA), "init", tmp],
+    subprocess.run([sys.executable, str(AFERIDOR), "init", tmp],
                    capture_output=True, text=True, check=True)
 
     out = session(tmp, [
@@ -70,7 +70,7 @@ with tempfile.TemporaryDirectory() as tmp:
 
     init = by_id.get(1, {}).get("result", {})
     check("handshake echoes the requested protocol", init.get("protocolVersion"), "2025-06-18")
-    check("server identifies itself", init.get("serverInfo", {}).get("name"), "feira")
+    check("server identifies itself", init.get("serverInfo", {}).get("name"), "aferidor")
     check("tools capability advertised", "tools" in init.get("capabilities", {}), True)
     if len(init.get("instructions", "")) < 200:
         falhas.append("instructions are missing or too short to steer a model")
@@ -122,7 +122,7 @@ with tempfile.TemporaryDirectory() as tmp:
                 falhas.append(f"SAFETY: tool {name!r} looks like it can order or pay")
 
     blob = json.dumps(tools, ensure_ascii=False).casefold()
-    for word in ("adb", "feira-fone", "android"):
+    for word in ("adb", "aferidor-fone", "android"):
         if word in blob:
             falhas.append(f"SAFETY: the tool surface mentions {word!r} — the phone must not be reachable")
 
@@ -139,7 +139,7 @@ with tempfile.TemporaryDirectory() as tmp:
 
     # The server source must not be able to reach the phone driver at all.
     # Tokenise and drop comments and string literals first: the docstrings here
-    # discuss `feira-fone` at length on purpose, and a naive text search flags
+    # discuss `aferidor-fone` at length on purpose, and a naive text search flags
     # the very prose that explains the boundary.
     import io
     import tokenize
@@ -150,7 +150,7 @@ with tempfile.TemporaryDirectory() as tmp:
             if tok.type not in (tokenize.COMMENT, tokenize.STRING):
                 code_only.append(tok.string)
     code = " ".join(code_only)
-    for needle in ("feira-fone", "feira_fone", "adb"):
+    for needle in ("aferidor-fone", "aferidor_fone", "adb"):
         if needle in code:
             falhas.append(f"SAFETY: executable code references {needle!r} — the phone must not be reachable")
 

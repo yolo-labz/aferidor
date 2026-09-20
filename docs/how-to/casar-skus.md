@@ -1,6 +1,6 @@
 # Casar SKUs vindos da nota fiscal
 
-Depois de `feira nfce notas/ --importar`, a sua planilha ganha linhas com nomes
+Depois de `aferidor nfce notas/ --importar`, a sua planilha ganha linhas com nomes
 assim:
 
 ```
@@ -11,11 +11,11 @@ oleo-de-soja-liza-pet-900ml
 
 São o mesmo óleo. O mercado digita a descrição do jeito que quer, muda de um mês
 para o outro, e a nota fiscal registra fielmente essa bagunça. Enquanto os três
-nomes existirem separados, o `feira` acha que você comprou três produtos
+nomes existirem separados, o `aferidor` acha que você comprou três produtos
 diferentes uma vez cada — e três amostras de um item viram uma amostra de três.
 
 **Isso não é cosmético.** A regra de migração exige 3 amostras para opinar. SKU
-espalhado é a forma mais comum de o `feira advise` responder `COLETAR` numa casa
+espalhado é a forma mais comum de o `aferidor advise` responder `COLETAR` numa casa
 que já tem dados de sobra.
 
 ## O que fazer
@@ -24,7 +24,7 @@ Escolha um nome e junte tudo nele. O nome bom é o que **você** reconhece daqui
 seis meses, não o que o mercado imprimiu:
 
 ```sh
-cd ~/minha-feira
+cd ~/minha-casa
 sed -i 's/^\(.*,\)ol-soja-liza-900,/\1oleo-de-soja,/' dados/observacoes.csv
 ```
 
@@ -35,8 +35,8 @@ trabalho recorrente.
 Depois:
 
 ```sh
-feira check      # aponta sku sem arquivo em itens/
-feira compare oleo-de-soja
+aferidor check      # aponta sku sem arquivo em itens/
+aferidor compare oleo-de-soja
 ```
 
 ## Quanto vale juntar
@@ -44,7 +44,7 @@ feira compare oleo-de-soja
 | | antes | depois |
 |---|---|---|
 | linhas | 3 SKUs × 1 compra | 1 SKU × 3 compras |
-| o que o `feira` diz | `COLETAR` (faltam amostras) | um veredito de verdade |
+| o que o `aferidor` diz | `COLETAR` (faltam amostras) | um veredito de verdade |
 
 ## O que **não** juntar
 
@@ -52,7 +52,7 @@ Junte descrições do **mesmo produto**. Não junte produtos que a sua casa trat
 como diferentes:
 
 - **Tamanhos diferentes do mesmo produto** — junte. É para isso que existe a
-  coluna `embalagem`: o `feira` normaliza 900 ml e 1 L para preço por litro.
+  coluna `embalagem`: o `aferidor` normaliza 900 ml e 1 L para preço por litro.
 - **Marcas diferentes** — junte só se a casa aceita substituir uma pela outra, e
   registre isso em `marcas_substitutas` no arquivo do item. Se `pode_substituir`
   é `não`, são itens diferentes e devem continuar separados.
@@ -80,7 +80,7 @@ toda mediana daí para a frente, que é bem pior.
 gravada cortada em 12 caracteres, e chave cortada não dá para casar: os 12
 primeiros dígitos são UF, ano-mês e parte do CNPJ, então **todas** as notas do
 mesmo mercado no mesmo mês começam igual. Casar por prefixo pularia nota nova de
-verdade, o que é pior que duplicar. Por isso o `feira` avisa em vez de adivinhar:
+verdade, o que é pior que duplicar. Por isso o `aferidor` avisa em vez de adivinhar:
 
 ```
 warning: 34 row(s) were imported by an older version that stored a
@@ -92,7 +92,7 @@ Se isso aparecer e o histórico parecer dobrado, a saída é apagar as linhas co
 
 ```sh
 grep -v ',nfce,' dados/observacoes.csv > /tmp/limpo.csv && mv /tmp/limpo.csv dados/observacoes.csv
-feira nfce ~/notas --importar
+aferidor nfce ~/notas --importar
 ```
 
 A coluna `observacao` guarda a chave, e é ela que faz a checagem funcionar — se

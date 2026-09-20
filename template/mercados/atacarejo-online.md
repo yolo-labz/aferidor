@@ -19,7 +19,7 @@ sozinha não responde: **vale a pena ir até lá?**
 
 Um item 20% mais barato num mercado com R$ 150 de pedido mínimo e R$ 12,90 de
 frete não é 20% mais barato. Se você só precisava daquele item, é bem mais
-caro. Por isso o `feira advise` recomenda migrações, e você decide se agrupa
+caro. Por isso o `aferidor advise` recomenda migrações, e você decide se agrupa
 elas num pedido só.
 
 ## O que registrar aqui

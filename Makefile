@@ -65,7 +65,7 @@ $(RENDERED)/demo-fone.gif: $(SOURCE)/demo-fone.cast
 	magick $@.tmp.gif -coalesce -gravity south -background '#CF222E' -splice 0x56 \
 	    -font '$(BANNER_FONT)' -fill white \
 	    -pointsize 19 -annotate +0+30 'VITRINE LOCAL DE DEMONSTRAÇÃO — NÃO É IFOOD NEM APP DE ENTREGA' \
-	    -pointsize 15 -annotate +0+8  'gravação real num Android físico · feira-fone é experimental' \
+	    -pointsize 15 -annotate +0+8  'gravação real num Android físico · aferidor-fone é experimental' \
 	    -layers optimize $@
 	@rm -f $@.tmp.gif
 	@echo "  $@ -> $$(identify -format '%wx%h %n frames %b' $@ | head -1)"
@@ -77,7 +77,7 @@ $(RENDERED)/demo-fone-dark.gif: $(SOURCE)/demo-fone.cast
 	magick $@.tmp.gif -coalesce -gravity south -background '#CF222E' -splice 0x56 \
 	    -font '$(BANNER_FONT)' -fill white \
 	    -pointsize 19 -annotate +0+30 'VITRINE LOCAL DE DEMONSTRAÇÃO — NÃO É IFOOD NEM APP DE ENTREGA' \
-	    -pointsize 15 -annotate +0+8  'gravação real num Android físico · feira-fone é experimental' \
+	    -pointsize 15 -annotate +0+8  'gravação real num Android físico · aferidor-fone é experimental' \
 	    -layers optimize $@
 	@rm -f $@.tmp.gif
 	@echo "  $@ -> $$(identify -format '%wx%h %n frames %b' $@ | head -1)"
@@ -89,10 +89,10 @@ $(RENDERED)/demo.png: $(RENDERED)/demo.gif
 $(RENDERED)/demo-fone.png: $(RENDERED)/demo-fone.gif
 	magick $< -coalesce -delete 0--2 $@
 
-# 100 columns because the widest line feira prints is 96; at 80 it wraps and the
+# 100 columns because the widest line aferidor prints is 96; at 80 it wraps and the
 # table becomes unreadable. asciinema 3 needs --window-size, not --cols.
 demo:
-	FEIRA="$$PWD/bin/feira" asciinema rec --window-size 100x30 --overwrite \
+	AFERIDOR="$$PWD/bin/aferidor" asciinema rec --window-size 100x30 --overwrite \
 	  -c "sh $(SOURCE)/demo.sh" $(SOURCE)/demo.cast
 	$(MAKE) $(RENDERED)/demo.gif $(RENDERED)/demo.png
 
@@ -100,7 +100,7 @@ demo:
 #   python3 -m http.server 8099 --directory $(SOURCE)   # then open the page
 # See docs/assets/source/demo-fone.sh for the full preconditions.
 demo-fone:
-	FEIRA="$$PWD/bin/feira" FONE="$$PWD/bin/feira-fone" \
+	AFERIDOR="$$PWD/bin/aferidor" FONE="$$PWD/bin/aferidor-fone" \
 	  asciinema rec --window-size 100x30 --overwrite \
 	  -c "sh $(SOURCE)/demo-fone.sh" $(SOURCE)/demo-fone.cast
 	$(MAKE) $(RENDERED)/demo-fone.gif $(RENDERED)/demo-fone.png

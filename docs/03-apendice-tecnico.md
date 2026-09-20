@@ -17,24 +17,24 @@ o documento é [o outro](02-o-metodo.md) — este aqui é encanamento.
 4. **Determinismo onde é aritmética.** Normalizar embalagem e aplicar a regra de
    migração são scripts, não julgamento de modelo. Um modelo recalculando isso a
    cada conversa produz números que ninguém consegue conferir.
-5. **Um arquivo por ferramenta.** `bin/feira` e `bin/feira-fone` são cada um um
+5. **Um arquivo por ferramenta.** `bin/aferidor` e `bin/aferidor-fone` são cada um um
    arquivo só, sem minificação. Um programa distribuído por `curl | sh` precisa
    ser auditável numa sentada.
 
 ## Layout
 
 ```
-feira/
-├── bin/feira              # CLI: histórico, comparação, nota fiscal
-├── bin/feira-mcp          # servidor MCP: expõe os dados a um cliente de IA
-├── bin/feira-fone         # camada 4b: dirigir o celular, com portão de pagamento
+aferidor/
+├── bin/aferidor              # CLI: histórico, comparação, nota fiscal
+├── bin/aferidor-mcp          # servidor MCP: expõe os dados a um cliente de IA
+├── bin/aferidor-fone         # camada 4b: dirigir o celular, com portão de pagamento
 ├── extensao/              # extensão de navegador: capturar preço da página
 ├── skills/                # instruções para o agente (formato Agent Skills)
-│   ├── feira-precos/      #   comparar e decidir
-│   ├── feira-nota-fiscal/ #   NFC-e → histórico
-│   ├── feira-lista/       #   despensa + doutrina → lista
-│   └── feira-pedido/      #   o último passo e o portão
-├── template/              # o repositório da casa que `feira init` materializa
+│   ├── aferidor-precos/      #   comparar e decidir
+│   ├── aferidor-nota-fiscal/ #   NFC-e → histórico
+│   ├── aferidor-lista/       #   despensa + doutrina → lista
+│   └── aferidor-pedido/      #   o último passo e o portão
+├── template/              # o repositório da casa que `aferidor init` materializa
 ├── tests/run.sh           # todas as verificações
 ├── install.sh             # bootstrap
 └── docs/
@@ -43,8 +43,8 @@ feira/
 E o repositório **da sua casa**, que é separado e é onde os seus dados moram:
 
 ```
-minha-feira/
-├── feira.toml             # limiares e dados da casa
+minha-casa/
+├── aferidor.toml             # limiares e dados da casa
 ├── AGENTS.md              # a doutrina — as regras da sua casa
 ├── itens/<sku>.md         # um item: front matter + suas notas
 ├── mercados/<slug>.md     # um mercado: frete, mínimo, pagamento
@@ -67,7 +67,7 @@ data,sku,mercado,marca,embalagem,quantidade,preco_total,fonte,observacao
 
 Tudo o mais é derivado. `preço por unidade-base = preco_total ÷ (quantidade ×
 conteúdo da embalagem)`, e o conteúdo sai do texto de `embalagem` — ver
-[unidades](../skills/feira-precos/referencia/unidades.md).
+[unidades](../skills/aferidor-precos/referencia/unidades.md).
 
 **`itens/<sku>.md`** — front matter YAML plano (escalares e listas `[a, b]`;
 deliberadamente não é um parser de YAML completo) mais as suas notas em prosa.
@@ -80,24 +80,24 @@ medido.
 ## Comandos
 
 ```bash
-feira init <dir>                  # cria o repositório da casa
-feira record <sku> <mercado> <preço> -e '900ml' -q 1 -m Liza --fonte nfce
-feira compare <sku>               # tabela por unidade-base + veredito
-feira advise                      # o veredito de tudo, agrupado por ação
-feira nfce <arquivos...> [--importar]
-feira check                       # valida o repositório
-feira selftest                    # valida a própria aritmética
+aferidor init <dir>                  # cria o repositório da casa
+aferidor record <sku> <mercado> <preço> -e '900ml' -q 1 -m Liza --fonte nfce
+aferidor compare <sku>               # tabela por unidade-base + veredito
+aferidor advise                      # o veredito de tudo, agrupado por ação
+aferidor nfce <arquivos...> [--importar]
+aferidor check                       # valida o repositório
+aferidor selftest                    # valida a própria aritmética
 ```
 
 Todos aceitam `--json` onde faz sentido, para você computar em cima.
 
-`feira compare` devolve um de quatro vereditos — `MANTER`, `MIGRAR`, `ADOTAR`,
+`aferidor compare` devolve um de quatro vereditos — `MANTER`, `MIGRAR`, `ADOTAR`,
 `COLETAR` — e nunca "o mais barato". A diferença é o produto; ver
-[a regra](../skills/feira-precos/referencia/regra-de-migracao.md).
+[a regra](../skills/aferidor-precos/referencia/regra-de-migracao.md).
 
 ## Nota fiscal eletrônica
 
-`feira nfce` lê o XML autorizado da NFC-e (modelo 65), no namespace
+`aferidor nfce` lê o XML autorizado da NFC-e (modelo 65), no namespace
 `http://www.portalfiscal.inf.br/nfe`. Ele **nunca busca nada** — você baixa os
 arquivos do portal da Fazenda do seu estado, com a sua conta gov.br, e aponta o
 comando para a pasta.
@@ -108,15 +108,15 @@ rede, e casar isso é manual. Prefira o EAN quando a nota trouxer; muitas emitem
 
 ## O servidor MCP
 
-`bin/feira-mcp` fala Model Context Protocol sobre stdio (JSON-RPC 2.0,
+`bin/aferidor-mcp` fala Model Context Protocol sobre stdio (JSON-RPC 2.0,
 delimitado por linha). Um cliente de IA se conecta, lista as ferramentas e as
-chama; o servidor lê o repositório da casa e executa o `feira`. Sem rede.
+chama; o servidor lê o repositório da casa e executa o `aferidor`. Sem rede.
 
 Oito ferramentas: `aconselhar`, `comparar_preco`, `listar_itens`,
 `registrar_preco`, `ler_doutrina`, `ler_despensa`, `ler_mercado`, `ler_diario`.
 Sete leem, uma acrescenta uma linha ao histórico.
 
-**Nenhuma faz pedido ou paga.** O servidor não alcança o `feira-fone`, não
+**Nenhuma faz pedido ou paga.** O servidor não alcança o `aferidor-fone`, não
 conhece `adb`, não abre aplicativo — e `tests/test_mcp.py` falha se alguém
 mudar isso, inclusive se o código apenas mencionar o driver do celular. Essa
 ausência é a propriedade de segurança do produto, não um detalhe de escopo.
@@ -139,7 +139,7 @@ Ela resolve o problema de login por não ter um: você já está logado.
 
 ## Camada 4b — o celular
 
-`bin/feira-fone`, sobre `adb`. Três guarda-corpos, e eles são a razão do arquivo
+`bin/aferidor-fone`, sobre `adb`. Três guarda-corpos, e eles são a razão do arquivo
 existir em vez de `adb shell input tap`:
 
 1. Recusa agir com mais de um aparelho conectado e nenhum fixado.
@@ -166,11 +166,11 @@ Se isso passa, a aritmética de que toda decisão depende está intacta.
 
 - **Mercado novo:** um arquivo em `mercados/`. Nada em código.
 - **Embalagem que o normalizador não entende:** `parse_package()` em
-  `bin/feira`, e um caso em `cmd_selftest`. Não mexa em um sem o outro.
-- **Botão de pagamento com palavra nova:** a lista `PERIGO` em `bin/feira-fone`
+  `bin/aferidor`, e um caso em `cmd_selftest`. Não mexa em um sem o outro.
+- **Botão de pagamento com palavra nova:** a lista `PERIGO` em `bin/aferidor-fone`
   **e** o caso em `tests/test_fone.py`. Falso negativo aqui é compra não
   autorizada.
-- **Ferramenta MCP nova:** `TOOLS` em `bin/feira-mcp`. Se ela pedir ou pagar
+- **Ferramenta MCP nova:** `TOOLS` em `bin/aferidor-mcp`. Se ela pedir ou pagar
   alguma coisa, **não adicione** — o teste vai falhar, e com razão.
 - **Skill nova:** um diretório em `skills/` com `SKILL.md`. Descrição em
   terceira pessoa, com as frases que disparam ela e as que não.

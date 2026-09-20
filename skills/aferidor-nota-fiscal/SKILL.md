@@ -1,5 +1,5 @@
 ---
-name: feira-nota-fiscal
+name: aferidor-nota-fiscal
 description: >-
   Reads Brazilian electronic consumer receipts (NFC-e, model 65) and folds the
   prices actually paid into the household price history. Handles "importa essa
@@ -14,15 +14,15 @@ when_to_use:
   - "User wants to reconcile a delivery against what was charged"
   - "User asks how to get their receipts out of the state tax portal"
 when_NOT_to_use:
-  - "User wants to compare merchants → use `feira-precos`"
-  - "User has a paper receipt or a photo, not an XML — this skill parses XML only; offer manual `feira record` instead"
+  - "User wants to compare merchants → use `aferidor-precos`"
+  - "User has a paper receipt or a photo, not an XML — this skill parses XML only; offer manual `aferidor record` instead"
   - "User asks you to log into a government portal on their behalf without them present — never do this; see the human gate below"
 requires:
   - "python3"
   - "NFC-e XML files the user has already downloaded (this skill never fetches them)"
 ---
 
-# feira-nota-fiscal
+# aferidor-nota-fiscal
 
 Brazilian NFC-e receipts into price history.
 
@@ -65,8 +65,8 @@ bulk download is not available.
 ### 1. Look before importing
 
 ```bash
-feira nfce notas/2026-08/            # human-readable dump, changes nothing
-feira nfce notas/2026-08/ --json     # structured, for computing on
+aferidor nfce notas/2026-08/            # human-readable dump, changes nothing
+aferidor nfce notas/2026-08/ --json     # structured, for computing on
 ```
 
 Read the output back to the user: date, merchant, total, item count. This is
@@ -76,7 +76,7 @@ will parse but is not a grocery receipt.
 ### 2. Import
 
 ```bash
-feira nfce notas/2026-08/ --importar
+aferidor nfce notas/2026-08/ --importar
 ```
 
 This appends one observation per line item. It is append-only and idempotent
@@ -137,7 +137,7 @@ Rules:
 ## Degrading gracefully
 
 - **No XML, only a photo or paper** → parse nothing. Read the items to the user
-  and record the important ones with `feira record --fonte loja`. Say that a
+  and record the important ones with `aferidor record --fonte loja`. Say that a
   photo is not a substitute, because the useful thing about the XML is that it
   is machine-checkable.
 - **Portal is down or the login fails** → this is a government website; it

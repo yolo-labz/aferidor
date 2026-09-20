@@ -51,7 +51,7 @@ Aqui entram alergias, prescrições médicas com prazo, e vetos absolutos.
 | Carnes | [PREENCHER] | [PREENCHER] | [PREENCHER] |
 
 Esta tabela é uma *hipótese inicial*. A partir de umas três semanas de dados,
-`feira advise` passa a discordar dela com números — e os números ganham.
+`aferidor advise` passa a discordar dela com números — e os números ganham.
 
 ## 5. Dinheiro
 
@@ -94,9 +94,9 @@ Quando redigir mensagem para feirante, açougue, mercado ou entregador:
 
 ## 8. O que o agente faz sozinho, sem perguntar
 
-- Registrar preço observado (`feira record`)
-- Ler e resumir nota fiscal (`feira nfce`)
-- Recalcular a tabela de comparação (`feira advise`)
+- Registrar preço observado (`aferidor record`)
+- Ler e resumir nota fiscal (`aferidor nfce`)
+- Recalcular a tabela de comparação (`aferidor advise`)
 - Sugerir a lista da semana a partir da despensa
 - Escrever no `DIARIO.md`
 

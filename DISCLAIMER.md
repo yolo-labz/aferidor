@@ -21,7 +21,7 @@ não é o mesmo que ter permissão.
 
 **Nenhum pagamento acontece sem você.** O portão humano descrito na
 [camada 4](docs/explicacao/camadas.md#o-portão-humano) é a regra central do
-projeto, e no `feira-fone` ele é aplicado em código. Não o contorne. Se
+projeto, e no `aferidor-fone` ele é aplicado em código. Não o contorne. Se
 contornar, a responsabilidade pelo pedido é inteiramente sua — inclusive
 perante o mercado e a operadora do cartão.
 
@@ -64,7 +64,7 @@ realistic consequence is contractual — your account being blocked or terminate
 — and the account is yours, as is the risk.
 
 **No payment happens without you.** The human gate is enforced in code in
-`feira-fone`. Do not route around it.
+`aferidor-fone`. Do not route around it.
 
 **Brazilian electronic receipts contain personal data**, including a national
 tax ID and a complete record of household consumption. Never commit them to a

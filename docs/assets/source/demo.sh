@@ -13,7 +13,7 @@
 
 set -eu
 
-FEIRA="${FEIRA:-feira}"
+AFERIDOR="${AFERIDOR:-aferidor}"
 CASA=$(mktemp -d)
 trap 'rm -rf "$CASA"' EXIT
 
@@ -31,24 +31,24 @@ type_out() {
 clear
 sleep 0.6
 
-type_out "feira init minha-feira"
-$FEIRA init "$CASA" | sed "s|$CASA|minha-feira|g" | head -3
+type_out "aferidor init minha-casa"
+$AFERIDOR init "$CASA" | sed "s|$CASA|minha-casa|g" | head -3
 sleep 1.4
 
 printf '\n'
-type_out "cd minha-feira"
+type_out "cd minha-casa"
 cd "$CASA"
 sleep 0.3
 
 # The reveal: the 900 ml bottle has the smaller sticker price and the larger
 # price per litre. This is the whole argument of the project in one screen.
 printf '\n'
-type_out "feira compare oleo-de-soja"
-$FEIRA compare oleo-de-soja
+type_out "aferidor compare oleo-de-soja"
+$AFERIDOR compare oleo-de-soja
 sleep 3.2
 
 # And then the part people do not expect: it says stay put.
 printf '\n'
-type_out "feira advise"
-$FEIRA advise
+type_out "aferidor advise"
+$AFERIDOR advise
 sleep 3.0

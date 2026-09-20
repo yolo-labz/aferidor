@@ -29,7 +29,7 @@ projeto passou quatro revisões recusando fazer.
 
 ### Três frases (post curto, apresentação, README de diretório)
 
-> O `feira` é um agente que lê preço **dentro dos aplicativos de entrega, no seu
+> O `aferidor` é um agente que lê preço **dentro dos aplicativos de entrega, no seu
 > próprio celular**, decide comparando por quilo ou litro em vez da etiqueta, e
 > monta o carrinho no aparelho. Aí ele para: tocar no botão de pagar é recusado
 > em código, e no servidor MCP a ferramenta de pagar nem existe — quem finaliza
@@ -40,7 +40,7 @@ projeto passou quatro revisões recusando fazer.
 ### Longa (página de projeto, submissão, e-mail)
 
 > Comparador de preços olha o preço **anunciado**, na loja que paga o anúncio. O
-> `feira` faz o contrário: parte da nota fiscal eletrônica que o mercado já
+> `aferidor` faz o contrário: parte da nota fiscal eletrônica que o mercado já
 > emitiu para a sua casa, normaliza cada preço por quilo, litro ou unidade, e
 > responde uma pergunta só — *vale a pena mudar alguma coisa?*
 >
@@ -66,18 +66,18 @@ Cada linha é uma coisa que a gente pode dizer em público, e onde alguém confe
 
 | Alegação | Status | Evidência |
 |---|---|---|
-| Normaliza preço por kg/L/unidade | ✅ verificável | `feira compare oleo-de-soja`; `parse_package()` + casos no `feira selftest` |
+| Normaliza preço por kg/L/unidade | ✅ verificável | `aferidor compare oleo-de-soja`; `parse_package()` + casos no `aferidor selftest` |
 | 900 ml a R$ 7,49 sai mais caro por litro que 1 L a R$ 7,90 | ✅ verificável | fixture `template/dados/observacoes.csv`; aritmética no `selftest` |
-| Só migra com ≥8% e ≥3 amostras | ✅ verificável | `verdict()` em `bin/feira`; casos no `feira selftest` |
+| Só migra com ≥8% e ≥3 amostras | ✅ verificável | `verdict()` em `bin/aferidor`; casos no `aferidor selftest` |
 | Diz "não mude" quando não compensa | ✅ verificável | veredito `MANTER` na demo e no `advise` |
 | Recusa opinar sem dados suficientes | ✅ verificável | veredito `COLETAR`; item `papel-higienico-30m` |
-| Lê nota fiscal eletrônica (NFC-e modelo 65) | ✅ verificável | `feira nfce`; `parse_nfce()` em `bin/feira` |
+| Lê nota fiscal eletrônica (NFC-e modelo 65) | ✅ verificável | `aferidor nfce`; `parse_nfce()` em `bin/aferidor` |
 | Zero dependência de runtime | ✅ verificável | só stdlib; `import` no fonte; CI sem `pip install` |
-| Nenhuma chamada de rede no CLI | ✅ verificável | ausência de `urllib`/`socket`/`http` em `bin/feira` |
+| Nenhuma chamada de rede no CLI | ✅ verificável | ausência de `urllib`/`socket`/`http` em `bin/aferidor` |
 | MCP não tem ferramenta de pedido nem pagamento | ✅ verificável | `tests/test_mcp.py`, incluindo teste negativo |
-| `feira-fone` recusa botão de pagamento | ✅ verificável | lista `PERIGO` + `tests/test_fone.py`; e a demo grava a recusa acontecendo |
+| `aferidor-fone` recusa botão de pagamento | ✅ verificável | lista `PERIGO` + `tests/test_fone.py`; e a demo grava a recusa acontecendo |
 | Lê preço e monta carrinho num Android físico | ✅ verificável, **com a ressalva da vitrine** | `demo-fone.cast` é uma gravação real; a loja é `vitrine-fixture.html`, não um app de entrega |
-| `feira-fone` funciona no iFood / Rappi / app X | ❌ **NÃO AFIRMAR** | nenhum aplicativo de entrega real foi automatizado; não há lista de apps suportados |
+| `aferidor-fone` funciona no iFood / Rappi / app X | ❌ **NÃO AFIRMAR** | nenhum aplicativo de entrega real foi automatizado; não há lista de apps suportados |
 | A camada do celular está pronta para usar | ❌ **NÃO AFIRMAR** | experimental: uma casa, um aparelho, sem release |
 | Instalador não roda como root, instala só no `$HOME` | ✅ verificável | `install.sh`; teste ponta a ponta no CI |
 | Emulador Android falha no pagamento (Play Integrity) | ⚠️ raciocinado, não testado por nós | `docs/pesquisa/harness-de-login.md`, aferido 25/08/2026 — **dizer sempre com a data** |
@@ -99,7 +99,7 @@ Estas foram testadas e reprovadas em duas revisões adversariais (25 e
   histórica sem evidência
 - ❌ "5% não paga o frete" — a regra de 8% é política configurada, não prova
   econômica. Diga: "a política padrão não recomenda trocar abaixo de 8%"
-- ❌ "não exige chave de API de ninguém" — o `feira` não exige; o cliente de IA
+- ❌ "não exige chave de API de ninguém" — o `aferidor` não exige; o cliente de IA
   pode exigir
 - ❌ "faz sua compra no iFood" / "compra sozinho no app do mercado" — nenhum
   aplicativo de entrega real foi automatizado, e o software não compra em
@@ -131,7 +131,7 @@ primeira sem serem pegas:
 - ❌ **"o preço que a sua casa realmente pagou"** — a entrada também é digitada, e
   digitação erra. Diga "o preço que a sua casa pagou, conforme você registra".
 - ❌ **"não faz nenhuma chamada de rede"** sem escopo — o instalador baixa, a
-  extensão lê página. Diga "o `feira` **instalado** não faz chamada de rede".
+  extensão lê página. Diga "o `aferidor` **instalado** não faz chamada de rede".
 - ❌ **"nunca busca preço na internet"** sem escopo — contradiz a extensão. Diga
   "não consulta preço na internet por conta própria; a extensão lê só a página
   que você abriu, quando você clica".
@@ -178,7 +178,7 @@ mentira. Toda republicação precisa dizer isso, com essas palavras ou parecidas
 > Gravação real num Android físico. A vitrine é uma página de exemplo, não um
 > aplicativo de entrega — nenhuma conta real foi automatizada para esta peça.
 
-Publicar o GIF sem essa linha deixa o espectador concluir que o `feira` já
+Publicar o GIF sem essa linha deixa o espectador concluir que o `aferidor` já
 dirige o iFood, que é exatamente a alegação que o projeto não sustenta hoje.
 
 ## Antes de publicar qualquer coisa
@@ -187,6 +187,6 @@ dirige o iFood, que é exatamente a alegação que o projeto não sustenta hoje.
 - [ ] Nenhuma frase da lista de proibidas
 - [ ] Nenhum dado real de casa em imagem — só fixture
 - [ ] Texto alternativo em toda imagem
-- [ ] Links apontam para `yolo-labz/feira`
+- [ ] Links apontam para `yolo-labz/aferidor`
 - [ ] A afirmação sobre emulador vem com a data da aferição
 - [ ] Sem ponto de exclamação, sem emoji em título, sem "🚀"

@@ -5,7 +5,7 @@ de verificar: **não existe servidor.**
 
 Não há conta para criar, não há sincronização, não há telemetria, não há "aceite
 os termos". O CLI não faz nenhuma requisição de rede. A extensão não faz nenhuma
-requisição de rede. O `feira-fone` fala só com o aparelho que está na sua mesa.
+requisição de rede. O `aferidor-fone` fala só com o aparelho que está na sua mesa.
 
 Isso não é minimalismo estético. É o que faz a pergunta "que dados vocês
 coletam?" ter resposta de uma palavra, e o que mantém o projeto longe de um
@@ -80,10 +80,10 @@ Antes:
 O último item não é formalidade. Publicar é irreversível na prática: cópia
 indexada continua existindo depois de você apagar.
 
-## O que o `feira check` faz por você
+## O que o `aferidor check` faz por você
 
 Ele valida estrutura — datas, preços, embalagens que não normalizam, itens sem
 arquivo. **Não é um detector de dado pessoal**, e a lista `proibido_no_repo` no
-`feira.toml` é um lembrete, não uma garantia.
+`aferidor.toml` é um lembrete, não uma garantia.
 
 A revisão antes de publicar é sua.

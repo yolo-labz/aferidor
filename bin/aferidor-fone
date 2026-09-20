@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""feira-fone — drive a physical Android handset for the last mile of an order.
+"""aferidor-fone — drive a physical Android handset for the last mile of an order.
 
 Requires a real, Play-certified phone connected over USB or wireless debugging.
 An emulator will not work for this job: Brazilian delivery apps check Play
@@ -48,7 +48,7 @@ PERIGO = [
 
 
 def die(msg: str, code: int = 1):
-    print(f"feira-fone: {msg}", file=sys.stderr)
+    print(f"aferidor-fone: {msg}", file=sys.stderr)
     raise SystemExit(code)
 
 
@@ -219,11 +219,11 @@ def cmd_tocar(args) -> int:
     before = dump(serial)
     hits = match(before, args.texto)
     if not hits:
-        print(f"feira-fone: nothing tappable matching {args.texto!r}.", file=sys.stderr)
-        print("            Run `feira-fone tela` to see what is actually on screen.", file=sys.stderr)
+        print(f"aferidor-fone: nothing tappable matching {args.texto!r}.", file=sys.stderr)
+        print("            Run `aferidor-fone tela` to see what is actually on screen.", file=sys.stderr)
         return 1
     if len(hits) > 1 and not args.primeiro:
-        print(f"feira-fone: {len(hits)} elements match {args.texto!r}:", file=sys.stderr)
+        print(f"aferidor-fone: {len(hits)} elements match {args.texto!r}:", file=sys.stderr)
         for n in hits:
             print(f"              {(n['text'] or n['desc'])[:60]}", file=sys.stderr)
         print("            Be more specific, or pass --primeiro to take the smallest.", file=sys.stderr)
@@ -234,7 +234,7 @@ def cmd_tocar(args) -> int:
 
     word = is_dangerous(label)
     if word and not args.eu_confirmo:
-        print(f"\nfeira-fone: REFUSED — {label!r} matches the payment word {word!r}.\n", file=sys.stderr)
+        print(f"\naferidor-fone: REFUSED — {label!r} matches the payment word {word!r}.\n", file=sys.stderr)
         print("  This taps a button that spends money or contacts someone. The human", file=sys.stderr)
         print("  approves it, in the moment, or it does not happen.\n", file=sys.stderr)
         print("  Show the person the cart total, the merchant and the card. If they", file=sys.stderr)
@@ -258,7 +258,7 @@ def cmd_tocar(args) -> int:
     print(f"tapped {label!r} at ({x},{y}) — screen {'changed' if changed else 'did NOT change'}")
     if not changed:
         print("  The screen looks identical. The tap may have missed, or the app is still")
-        print("  loading. Check with `feira-fone tela` before tapping again — do not")
+        print("  loading. Check with `aferidor-fone tela` before tapping again — do not")
         print("  repeat a tap blindly in a checkout flow.")
         return 1
     return 0
@@ -266,7 +266,7 @@ def cmd_tocar(args) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        prog="feira-fone",
+        prog="aferidor-fone",
         description="Drive a physical Android phone for the last mile of a grocery order.",
         epilog="Never pays for anything without --eu-confirmo on that exact command.",
     )

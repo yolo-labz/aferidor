@@ -32,11 +32,11 @@ legível no `git diff`.
 | Arquivo | Dimensões | Peso | Orçamento | Como refazer |
 |---|---|---:|---:|---|
 | `social-preview.png` | 1280×640 | ~71 KB | ≤ 1024 KB (teto do GitHub) | `make assets` |
-| `demo.gif` | 921×628, 45 quadros | ~78 KB | ≤ 900 KB | `make demo` |
-| `demo-dark.gif` | 921×628, 45 quadros | ~78 KB | ≤ 900 KB | `make assets` (mesmo cast, tema escuro) |
-| `demo.png` | 921×628 | ~45 KB | ≤ 300 KB | `make assets` (último quadro do GIF) |
-| `demo-fone.gif` | 921×684, 70 quadros | ~249 KB | ≤ 900 KB | `make demo-fone` (exige celular) |
-| `demo-fone-dark.gif` | 921×684, 70 quadros | ~262 KB | ≤ 900 KB | `make assets` (mesmo cast, tema escuro) |
+| `demo.gif` | 921×628, 51 quadros | ~85 KB | ≤ 900 KB | `make demo` |
+| `demo-dark.gif` | 921×628, 51 quadros | ~83 KB | ≤ 900 KB | `make assets` (mesmo cast, tema escuro) |
+| `demo.png` | 921×628 | ~46 KB | ≤ 300 KB | `make assets` (último quadro do GIF) |
+| `demo-fone.gif` | 921×684, 78 quadros | ~276 KB | ≤ 900 KB | `make demo-fone` (exige celular) |
+| `demo-fone-dark.gif` | 921×684, 78 quadros | ~295 KB | ≤ 900 KB | `make assets` (mesmo cast, tema escuro) |
 | `demo-fone.png` | 921×684 | ~25 KB | ≤ 300 KB | `make assets` (último quadro do GIF) |
 
 Os orçamentos são verificados por `scripts/check-assets.py`, que **quebra o CI**
@@ -53,7 +53,7 @@ Isso é regra, não coincidência:
 - **Nenhum dado real de casa nenhuma** aparece em imagem deste repositório.
   Nota fiscal tem CPF e a lista completa do que uma família consome.
 - Como as peças usam a fixture, elas **não podem divergir** do que a ferramenta
-  realmente imprime: `feira compare oleo-de-soja` produz exatamente os números
+  realmente imprime: `aferidor compare oleo-de-soja` produz exatamente os números
   que aparecem na gravação.
 
 O cartão social não traz número nenhum, de propósito. Ele é lido a ~600 px numa
@@ -66,7 +66,7 @@ usuário, sem hostname e sem caminho da máquina que gravou.
 ### A demo do celular
 
 `make demo-fone` é a única peça que precisa de hardware: um Android físico
-ligado por `adb`. A gravação é real — o `feira-fone` lê a árvore de
+ligado por `adb`. A gravação é real — o `aferidor-fone` lê a árvore de
 acessibilidade do aparelho, toca de verdade e recusa o pagamento de verdade.
 
 **O que é encenado é só a loja.** A demo dirige

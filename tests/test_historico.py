@@ -19,7 +19,7 @@ import sys
 import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-FEIRA = ROOT / "bin" / "feira"
+AFERIDOR = ROOT / "bin" / "aferidor"
 
 falhas = []
 
@@ -29,13 +29,13 @@ def check(rotulo, got, want):
         falhas.append(f"{rotulo}: got {got!r}, want {want!r}")
 
 
-def feira(casa, *args, esperar_ok=True):
+def aferidor(casa, *args, esperar_ok=True):
     p = subprocess.run(
-        [sys.executable, str(FEIRA), *args],
+        [sys.executable, str(AFERIDOR), *args],
         capture_output=True, text=True, timeout=120, cwd=str(casa),
     )
     if esperar_ok and p.returncode != 0:
-        falhas.append(f"feira {' '.join(args)} exited {p.returncode}: {p.stderr[:300]}")
+        falhas.append(f"aferidor {' '.join(args)} exited {p.returncode}: {p.stderr[:300]}")
     return p
 
 
@@ -66,7 +66,7 @@ def linhas_nfce(casa):
 
 with tempfile.TemporaryDirectory() as tmp:
     casa = pathlib.Path(tmp) / "casa"
-    subprocess.run([sys.executable, str(FEIRA), "init", str(casa)],
+    subprocess.run([sys.executable, str(AFERIDOR), "init", str(casa)],
                    capture_output=True, text=True, check=True)
 
     notas = casa / "notas"
@@ -74,7 +74,7 @@ with tempfile.TemporaryDirectory() as tmp:
     (notas / "agosto.xml").write_text(NFCE, encoding="utf-8")
 
     # -- reading an old receipt --------------------------------------------
-    lido = feira(casa, "nfce", "notas", "--json")
+    lido = aferidor(casa, "nfce", "notas", "--json")
     recibos = json.loads(lido.stdout)
     check("one receipt parsed", len(recibos), 1)
     check("merchant name", recibos[0]["emitente"], "Mercado Exemplo")
@@ -87,11 +87,11 @@ with tempfile.TemporaryDirectory() as tmp:
     check("directory recursed", "OLEO SOJA LIZA 900ML" in lido.stdout, True)
 
     # -- importing, twice ---------------------------------------------------
-    primeira = feira(casa, "nfce", "notas", "--importar")
+    primeira = aferidor(casa, "nfce", "notas", "--importar")
     check("first import writes both items", len(linhas_nfce(casa)), 2)
     check("first import says so", "imported 2 observations" in primeira.stdout, True)
 
-    segunda = feira(casa, "nfce", "notas", "--importar")
+    segunda = aferidor(casa, "nfce", "notas", "--importar")
     check("second import writes nothing", len(linhas_nfce(casa)), 2)
     check("second import says it skipped", "skipped 1 receipt" in segunda.stdout, True)
     check("and imports zero", "imported 0 observations" in segunda.stdout, True)
@@ -105,7 +105,7 @@ with tempfile.TemporaryDirectory() as tmp:
     # The same receipt reaching one batch twice — a copied file, or a folder
     # passed alongside a file inside it — is still the same receipt.
     (notas / "copia.xml").write_text(NFCE, encoding="utf-8")
-    feira(casa, "nfce", "notas/agosto.xml", "notas/copia.xml", "--importar")
+    aferidor(casa, "nfce", "notas/agosto.xml", "notas/copia.xml", "--importar")
     check("a repeat inside one batch is caught too", len(linhas_nfce(casa)), 2)
 
     # A history imported by the old truncated-key version cannot be matched.
@@ -113,27 +113,27 @@ with tempfile.TemporaryDirectory() as tmp:
     legado = casa / "dados" / "observacoes.csv"
     legado.write_text(
         legado.read_text(encoding="utf-8").replace(chave, chave[:12]), encoding="utf-8")
-    aviso = feira(casa, "nfce", "notas", "--importar")
+    aviso = aferidor(casa, "nfce", "notas", "--importar")
     check("legacy truncated keys are disclosed",
           "truncated key" in aviso.stdout, True)
 
     # -- history by date ----------------------------------------------------
-    hist = feira(casa, "historico", "--json")
+    hist = aferidor(casa, "historico", "--json")
     meses = json.loads(hist.stdout)["meses"]
     check("august is present", "2026-08" in meses, True)
     check("august spend includes the receipt",
           round(meses["2026-08"]["gasto"], 2) >= 21.97, True)
 
-    filtrado = feira(casa, "historico", "--desde", "2099-01-01", esperar_ok=False)
+    filtrado = aferidor(casa, "historico", "--desde", "2099-01-01", esperar_ok=False)
     check("an empty window is an error, not an empty table", filtrado.returncode, 1)
 
-    item = json.loads(feira(casa, "historico", "oleo-de-soja", "--json").stdout)["item"]
+    item = json.loads(aferidor(casa, "historico", "oleo-de-soja", "--json").stdout)["item"]
     check("item timeline is dated and ordered",
           item["compras"] == sorted(item["compras"], key=lambda c: c["data"]), True)
     check("cycles counted", item["ciclos"] >= 1, True)
 
     # -- what ran low -------------------------------------------------------
-    falta = json.loads(feira(casa, "falta", "--json").stdout)
+    falta = json.loads(aferidor(casa, "falta", "--json").stdout)
     check("every verdict group exists",
           sorted(falta), ["coletar", "conferir", "manter", "repor"])
     todos = [v["sku"] for grupo in falta.values() for v in grupo]
@@ -158,19 +158,19 @@ with tempfile.TemporaryDirectory() as tmp:
     quebrado = [linhas[0]] + [ln.replace(ln.split(",")[0], "31/31/2026", 1)
                               for ln in linhas[1:] if ln.strip()]
     csv_path.write_text("\n".join(quebrado) + "\n", encoding="utf-8")
-    ilegivel = feira(casa, "falta").stdout
+    ilegivel = aferidor(casa, "falta").stdout
     check("unreadable dates are disclosed, not silently zero",
           "não foram lidas" in ilegivel, True)
     csv_path.write_text(guardado, encoding="utf-8")
 
-    texto = feira(casa, "falta").stdout
+    texto = aferidor(casa, "falta").stdout
     for proibido in ["acabou", "está sem", "vai acabar", "% de chance", "compre agora"]:
         check(f"never says {proibido!r}", proibido in texto.lower(), False)
     check("says plainly that it reads purchases, not the cupboard",
           "não o armário" in texto, True)
 
     # -- the seller message -------------------------------------------------
-    zap = feira(casa, "zap")
+    zap = aferidor(casa, "zap")
     check("writes a message", "Oi!" in zap.stdout, True)
     check("points at wa", "github.com/yolo-labz/wa" in zap.stdout, True)
     check("shows the allowlist step first", "wa allow add" in zap.stdout, True)
@@ -179,7 +179,7 @@ with tempfile.TemporaryDirectory() as tmp:
     check("quotes the body so newlines survive", "--body $'" in zap.stdout, True)
 
     antes = (casa / "dados" / "observacoes.csv").read_text(encoding="utf-8")
-    feira(casa, "zap", "oleo-de-soja")
+    aferidor(casa, "zap", "oleo-de-soja")
     check("asking about an item changes nothing on disk",
           (casa / "dados" / "observacoes.csv").read_text(encoding="utf-8"), antes)
 

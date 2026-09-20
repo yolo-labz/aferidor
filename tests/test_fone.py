@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Runnable check for feira-fone's guardrails.
+"""Runnable check for aferidor-fone's guardrails.
 
 Only the pure logic is exercised here — no phone required, and deliberately so:
 this must be verifiable on a machine with no device attached, because it is the
@@ -14,10 +14,10 @@ import pathlib
 import sys
 
 # The executable has no .py suffix, so it needs an explicit source loader.
-FONE = pathlib.Path(__file__).resolve().parent.parent / "bin" / "feira-fone"
+FONE = pathlib.Path(__file__).resolve().parent.parent / "bin" / "aferidor-fone"
 
 spec = importlib.util.spec_from_loader(
-    "feira_fone", importlib.machinery.SourceFileLoader("feira_fone", str(FONE))
+    "aferidor_fone", importlib.machinery.SourceFileLoader("aferidor_fone", str(FONE))
 )
 fone = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(fone)

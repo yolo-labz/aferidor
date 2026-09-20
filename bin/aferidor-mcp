@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""feira-mcp — expose the household's grocery data to any MCP-capable client.
+"""aferidor-mcp — expose the household's grocery data to any MCP-capable client.
 
 Speaks the Model Context Protocol over stdio (JSON-RPC 2.0, newline-delimited).
 Point a client at it and you can ask, in Portuguese, "onde o arroz está mais
@@ -7,9 +7,9 @@ barato?" — the client owns the conversation, the model and the billing; this
 server owns the data and the arithmetic.
 
 Standard library only, like the rest of the project. No network calls: it reads
-the household repository and shells out to `feira`, nothing else.
+the household repository and shells out to `aferidor`, nothing else.
 
-    Client  ──stdio──>  feira-mcp  ──>  bin/feira  ──>  plain files
+    Client  ──stdio──>  aferidor-mcp  ──>  bin/aferidor  ──>  plain files
 
 WHY THIS INSTEAD OF A BUILT-IN CHAT
     A chat loop of our own would force every user through a provider API key
@@ -23,7 +23,7 @@ THE SAFETY BOUNDARY — read this before adding a tool
     That is all it can do.
 
     It cannot open an app, touch the phone, place an order, or pay for
-    anything. Those live in `feira-fone`, which is deliberately NOT reachable
+    anything. Those live in `aferidor-fone`, which is deliberately NOT reachable
     from here. Payment is completed by a person, by hand, in the merchant's own
     app — so there is no payment capability for a model to be talked into
     using, no approval token to forge, and no prompt injection worth writing.
@@ -49,29 +49,29 @@ VERSION = "0.1.0"
 # handshake is compatible enough in practice, and refusing strands the user.
 PROTOCOL_VERSIONS = ("2025-06-18", "2025-03-26", "2024-11-05")
 
-FEIRA = Path(__file__).resolve().parent / "feira"
+AFERIDOR = Path(__file__).resolve().parent / "aferidor"
 
 
 def casa() -> Path:
-    """The household repository. FEIRA_CASA, or the first parent holding feira.toml."""
-    start = Path(os.environ.get("FEIRA_CASA", os.getcwd())).resolve()
+    """The household repository. AFERIDOR_CASA, or the first parent holding aferidor.toml."""
+    start = Path(os.environ.get("AFERIDOR_CASA", os.getcwd())).resolve()
     for candidate in [start, *start.parents]:
-        if (candidate / "feira.toml").exists():
+        if (candidate / "aferidor.toml").exists():
             return candidate
     return start
 
 
-def run_feira(*args: str) -> tuple[bool, str]:
+def run_aferidor(*args: str) -> tuple[bool, str]:
     """Run the CLI inside the household repository. Returns (ok, output)."""
     try:
         p = subprocess.run(
-            [sys.executable, str(FEIRA), *args],
+            [sys.executable, str(AFERIDOR), *args],
             capture_output=True, text=True, timeout=60, cwd=str(casa()),
         )
     except subprocess.TimeoutExpired:
-        return False, "feira demorou demais para responder (60s)."
+        return False, "aferidor demorou demais para responder (60s)."
     except OSError as exc:
-        return False, f"não consegui executar o feira: {exc}"
+        return False, f"não consegui executar o aferidor: {exc}"
     if p.returncode != 0:
         return False, (p.stderr or p.stdout or "erro desconhecido").strip()
     return True, p.stdout.strip()
@@ -98,7 +98,7 @@ def read_file(rel: str, limit: int = 20_000) -> tuple[bool, str]:
 # ---------------------------------------------------------------------------
 
 def t_aconselhar(_args: dict) -> tuple[bool, str]:
-    ok, out = run_feira("advise", "--json")
+    ok, out = run_aferidor("advise", "--json")
     if not ok:
         return False, out
     return True, out + (
@@ -112,7 +112,7 @@ def t_comparar(args: dict) -> tuple[bool, str]:
     sku = (args.get("sku") or "").strip()
     if not sku:
         return False, "faltou o parâmetro 'sku'."
-    ok, out = run_feira("compare", sku, "--json")
+    ok, out = run_aferidor("compare", sku, "--json")
     if not ok:
         return False, out + "\n\nUse listar_itens para ver os identificadores disponíveis."
     return True, out
@@ -139,7 +139,7 @@ def t_registrar(args: dict) -> tuple[bool, str]:
     if args.get("data"):
         cmd += ["-d", str(args["data"])]
     cmd += ["--fonte", str(args.get("fonte") or "manual")]
-    ok, out = run_feira(*cmd)
+    ok, out = run_aferidor(*cmd)
     if not ok:
         return False, out
     return True, out + (
@@ -176,7 +176,7 @@ def t_historico(args: dict) -> tuple[bool, str]:
         cmd += ["--desde", str(args["desde"])]
     if args.get("mercado"):
         cmd += ["--mercado", str(args["mercado"])]
-    ok, out = run_feira(*cmd)
+    ok, out = run_aferidor(*cmd)
     if not ok:
         return False, out
     return True, out + (
@@ -186,7 +186,7 @@ def t_historico(args: dict) -> tuple[bool, str]:
 
 
 def t_falta(_args: dict) -> tuple[bool, str]:
-    ok, out = run_feira("falta")
+    ok, out = run_aferidor("falta")
     if not ok:
         return False, out
     return True, out + (
@@ -200,7 +200,7 @@ def t_mensagem(args: dict) -> tuple[bool, str]:
     cmd = ["zap"]
     if args.get("sku"):
         cmd.append(str(args["sku"]))
-    ok, out = run_feira(*cmd)
+    ok, out = run_aferidor(*cmd)
     if not ok:
         return False, out
     return True, out + (
@@ -427,7 +427,7 @@ def handle(msg: dict):
         return result(rid, {
             "protocolVersion": asked if asked in PROTOCOL_VERSIONS else PROTOCOL_VERSIONS[0],
             "capabilities": {"tools": {}},
-            "serverInfo": {"name": "feira", "version": VERSION},
+            "serverInfo": {"name": "aferidor", "version": VERSION},
             "instructions": INSTRUCTIONS,
         })
 
@@ -469,11 +469,11 @@ def main() -> int:
         print("\nConfigure no seu cliente MCP — veja docs/explicacao/como-conversar.md")
         return 0
     if "--version" in sys.argv:
-        print(f"feira-mcp {VERSION}")
+        print(f"aferidor-mcp {VERSION}")
         return 0
 
-    if not FEIRA.exists():
-        print(f"feira-mcp: não encontrei o feira em {FEIRA}", file=sys.stderr)
+    if not AFERIDOR.exists():
+        print(f"aferidor-mcp: não encontrei o aferidor em {AFERIDOR}", file=sys.stderr)
         return 2
 
     for line in sys.stdin:

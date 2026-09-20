@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "feira — capturar preços",
+  "name": "aferidor — capturar preços",
   "version": "0.1.0",
   "description": "Lê os preços da página que você está vendo e devolve as linhas prontas para o seu histórico. Não envia nada para lugar nenhum.",
   "permissions": ["activeTab", "scripting"],

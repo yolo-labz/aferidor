@@ -1,4 +1,4 @@
-# Como o feira fala com uma IA — pesquisa e decisão
+# Como o aferidor fala com uma IA — pesquisa e decisão
 
 **Data:** 25/08/2026
 **Pergunta:** existe um harness pequeno que dê para incorporar, para que a
@@ -11,7 +11,7 @@ faltava não era um harness — era um *limite*. Ficou um servidor MCP.
 
 ## O problema
 
-O `feira` não fala com modelo nenhum: sem chamada de rede, sem chave de API. As
+O `aferidor` não fala com modelo nenhum: sem chamada de rede, sem chave de API. As
 quatro skills só funcionam para quem **já tem** Claude Code — o instalador
 copia para `~/.claude/skills` e imprime "skipping" quando a pasta não existe.
 
@@ -78,7 +78,7 @@ mercado.** Isso apaga o problema inteiro em vez de administrá-lo:
 | Aprovação reusada | invalidar ao mudar carrinho | **não há aprovação** |
 | Modelo inventando preço | rastrear fato vs estimativa | continua valendo — instrução + dado estruturado |
 
-O servidor MCP não alcança o `feira-fone`, não conhece `adb`, não abre app.
+O servidor MCP não alcança o `aferidor-fone`, não conhece `adb`, não abre app.
 **A capacidade não existe**, e `tests/test_mcp.py` falha se alguém a
 introduzir — inclusive se o código apenas mencionar o driver do celular. O teste
 foi validado ao contrário: com uma ferramenta `pagar_pedido` plantada de
@@ -97,7 +97,7 @@ ferramentas, e o veredito `COLETAR`, que é o programa se recusando a opinar.
 |---|---|
 | `llm` (Simon Willison) | ótimo, Apache-2.0, estável — mas é **segunda instalação + chave de API**. Fica como opção documentada |
 | `aichat` | binário único, MIT — mesma barreira, e config em TOML não é para não-programador |
-| `mods` | **sem tool-calling.** Conversaria sem conseguir rodar `feira compare` |
+| `mods` | **sem tool-calling.** Conversaria sem conseguir rodar `aferidor compare` |
 | Claude Code / Agent SDK | proprietário, não empacotável. Já suportado pelas skills |
 | smolagents / pydantic-ai | são a resposta certa *se* o projeto aceitasse dependência. Aceitar é que é a decisão |
 | LangChain / LlamaIndex | pesados demais para cinco ferramentas sobre arquivos de texto |
