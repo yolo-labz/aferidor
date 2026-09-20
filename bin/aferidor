@@ -31,6 +31,11 @@ from pathlib import Path
 
 VERSION = "0.1.0"
 
+# `aferidor.toml` is the current name; `feira.toml` is read so a household set up
+# before the 20/09/2026 rename keeps its own thresholds instead of silently
+# falling back to the defaults. First match wins.
+CONFIG_NAMES = ("aferidor.toml", "feira.toml")
+
 # Defaults mirror the doctrine in docs/02-o-metodo.md §5. Override in aferidor.toml.
 DEFAULTS = {
     "moeda": "BRL",
@@ -167,7 +172,7 @@ class Casa:
     def find(cls, start: Path | None = None) -> "Casa":
         cur = (start or Path(os.environ.get("AFERIDOR_CASA", Path.cwd()))).resolve()
         for candidate in [cur, *cur.parents]:
-            if (candidate / "aferidor.toml").exists():
+            if any((candidate / name).exists() for name in CONFIG_NAMES):
                 return cls(candidate)
         die(
             "no household repository here.\n"
@@ -175,8 +180,13 @@ class Casa:
         )
 
     def _load_config(self) -> None:
-        path = self.root / "aferidor.toml"
-        if not path.exists():
+        # The project was called `feira` before 20/09/2026, so a household set up
+        # back then still has `feira.toml`. Ignoring it would silently drop that
+        # household's own thresholds and fall back to the shipping defaults —
+        # the file that says "only switch merchant above 12%" would just be
+        # ignored, with no warning. The new name wins when both are present.
+        path = next((p for p in (self.root / n for n in CONFIG_NAMES) if p.exists()), None)
+        if path is None:
             return
         try:
             import tomllib
