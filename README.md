@@ -75,6 +75,13 @@ Um agente que só busca "o mais barato" erra as duas coisas.
 > Quadro estático: [`demo-fone.png`](docs/assets/rendered/demo-fone.png).
 > Gravação: [`demo-fone.cast`](docs/assets/source/demo-fone.cast).
 
+**Rascunho vertical:** [MP4 1080×1920, 40 s, sem áudio](docs/assets/rendered/portrait.mp4)
+e [poster estático](docs/assets/rendered/portrait.png). É um **replay textual
+reformatado da gravação acima**, com tempo editado e dados de exemplo, não uma
+nova execução no celular. A ressalva de vitrine local, não-app de entrega e
+status experimental permanece em todos os quadros.
+[Fontes, licença e como regenerar](docs/assets/MANIFEST.md#rascunho-vertical--replay-textual-não-nova-captura).
+
 ## O que precisa para o ciclo completo
 
 **Um celular Android físico**, homologado pelo Google Play, com depuração USB

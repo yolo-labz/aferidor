@@ -18,6 +18,7 @@ run() {
   if "$@"; then :; else fail=1; fi
 }
 
+run "portrait — fixture reflow and disclosure layout" python3 tests/test_portrait.py
 run "aferidor — units, numbers, migration rule" python3 bin/aferidor selftest
 run "aferidor-fone — payment gate, element matching" python3 tests/test_fone.py
 run "aferidor-mcp — protocol, failures, and no payment capability" python3 tests/test_mcp.py

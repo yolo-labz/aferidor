@@ -1,0 +1,10 @@
+ShellCheck 0.11.0: install.sh tests/run.sh PASS (installed store binary; not initially on PATH)
+Python syntax PASS: bin/aferidor
+Python syntax PASS: bin/aferidor-mcp
+Python syntax PASS: bin/aferidor-fone
+Python syntax PASS: docs/assets/source/portrait.py
+Python syntax PASS: scripts/check-assets.py
+Python syntax PASS: scripts/check-media.py
+Python syntax PASS: tests/test_portrait.py
+Python syntax PASS: tests/test_media.py
+git diff --check PASS
