@@ -30,7 +30,8 @@ Check parsing/layout with one runnable unittest file; inspect all five cards.
 - [x] Run baseline `make check` (all existing checks pass).
 - [x] Implement cast-derived renderer and small regression/media checks.
 - [x] Generate MP4/poster; inspect representative frames; run all checks.
-- [ ] Commit evidence/report and open ordinary code/docs PR.
+- [x] Commit evidence and open ordinary code/docs PR #14; canonical report in
+  `docs/swarm-2026-09-21.md` accompanies the report-only follow-up commit.
 - [ ] Coordinator: full GLM exact-head independent review after queue recovery.
 - [ ] Coordinator: decide merge; no worker merge/deployment/public posting.
 
