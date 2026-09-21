@@ -69,6 +69,7 @@ BUDGETS = {
     "demo-fone.gif":      {"max_kb": 900},
     "demo-fone-dark.gif": {"max_kb": 900},
     "demo-fone.png":      {"max_kb": 300},
+    "portrait.png":       {"size": (1080, 1920), "max_kb": 400},
 }
 
 
@@ -102,6 +103,19 @@ for name, rule in BUDGETS.items():
     elif "size" in rule and got != rule["size"]:
         fail(f"docs/assets/rendered/{name}: is {got[0]}x{got[1]}, must be "
              f"{rule['size'][0]}x{rule['size'][1]}")
+
+
+# Lightweight CI gate stays stdlib-only. Full decode/disclosure/duration checks
+# are mandatory locally via `make check-media`, which requires FFmpeg.
+video = RENDERED / "portrait.mp4"
+if not video.exists():
+    fail("docs/assets/rendered/portrait.mp4: missing — run `make portrait`")
+else:
+    if not 0 < video.stat().st_size <= 8 * 1024 * 1024:
+        fail("portrait.mp4: empty or exceeds the 8 MiB budget")
+    with video.open("rb") as handle:
+        if handle.read(12)[4:8] != b"ftyp":
+            fail("portrait.mp4: unrecognised MP4 header")
 
 
 # --- 3. the palette actually clears WCAG AA -------------------------------

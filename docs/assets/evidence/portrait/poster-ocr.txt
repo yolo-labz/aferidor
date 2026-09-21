@@ -1,0 +1,30 @@
+VITRINE LOCAL DE DEMONSTRACAO
+NAO E IFOOD NEM APP DE ENTREGA
+
+aferidor-fone é experimental
+
+aferidor
+05 / O limite: pagar
+
+Saida do cast existente, reformatada
+
+aferidor-fone tocar 'Pagar'
+aferidor-fone: REFUSED — 'Pagar pedido'
+matches the payment word 'pagar'.
+
+This taps a button that spends money or
+contacts someone. The human
+
+approves it, in the moment, or it does
+not happen.
+
+Show the person the cart total, the
+merchant and the card. If they
+
+say yes, re-run this exact command with
+--eu-confirmo.
+
+REPLAY TEXTUAL - DADOS DE EXEMPLO
+Tempo editado - sem audio - rascunho
+
+N&do é uma nova execucao no celular.
