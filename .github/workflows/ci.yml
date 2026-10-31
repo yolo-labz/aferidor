@@ -31,15 +31,17 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install shellcheck
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y shellcheck
-
       # The whole project is stdlib Python + one POSIX installer + three small
-      # browser-extension files, so the runner needs nothing but what it ships.
+      # browser-extension files, so the runner needs nothing but what it ships:
+      # shellcheck 0.9.0 is already in the ubuntu-24.04 image (see its README,
+      # "Installed Software"). This used to `sudo apt-get install` it — an
+      # unpinned network fetch for a package that was already there, and the
+      # only sudo in CI. Dropping it also makes the step fail loudly instead of
+      # being silently repaired if a future image ever stops shipping the tool.
       - name: shellcheck
-        run: shellcheck -s sh install.sh tests/run.sh
+        run: |
+          shellcheck -V
+          shellcheck -s sh install.sh tests/run.sh
 
       - name: Python syntax
         run: |
