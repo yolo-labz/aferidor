@@ -1,0 +1,2 @@
+python3 docs/assets/source/portrait.py --encoder h264_vaapi
+portrait: 5 cards, 40s, 1080x1920, silent

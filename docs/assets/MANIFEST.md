@@ -18,6 +18,7 @@ Regenerar tudo: `make assets`. Conferir: `make check-assets` (roda no CI).
 | `demo-fone.sh` | roteiro da demo do celular | escrito à mão | Apache-2.0 (deste repo) |
 | `demo-fone.cast` | gravação da demo do celular, num aparelho real | asciinema 3.2.1 | Apache-2.0 (deste repo) |
 | `vitrine-fixture.html` | vitrine de mentira que a demo do celular dirige | escrito à mão | Apache-2.0 (deste repo) |
+| `portrait.py` | recomposição textual do cast existente em cinco cartões verticais; não executa comandos gravados | Python stdlib + Inkscape + FFmpeg | Apache-2.0 (deste repo) |
 
 **Nenhuma fonte tipográfica está embutida.** Os SVGs declaram a pilha do sistema
 (`DejaVu Sans, Inter, system-ui, sans-serif`) e o texto do preview social é
@@ -38,6 +39,8 @@ legível no `git diff`.
 | `demo-fone.gif` | 921×684, 78 quadros | ~276 KB | ≤ 900 KB | `make demo-fone` (exige celular) |
 | `demo-fone-dark.gif` | 921×684, 78 quadros | ~295 KB | ≤ 900 KB | `make assets` (mesmo cast, tema escuro) |
 | `demo-fone.png` | 921×684 | ~25 KB | ≤ 300 KB | `make assets` (último quadro do GIF) |
+| `portrait.mp4` | 1080×1920, 24 fps, 40 s | ~869 KiB | ≤ 8 MiB | `make portrait MEDIA_ENCODER=h264_vaapi` (ou `make portrait` para libx264) |
+| `portrait.png` | 1080×1920, último cartão | ~233 KiB | ≤ 400 KiB | `make portrait` |
 
 Os orçamentos são verificados por `scripts/check-assets.py`, que **quebra o CI**
 se uma peça engordar. O do GIF é bem mais apertado que o formato permite porque
@@ -93,6 +96,51 @@ junto. Ela é aplicada pelo `make`, não à mão.
 Para refazer: sirva `docs/assets/source/` em HTTP, abra a vitrine no aparelho e
 rode `make demo-fone`. As pré-condições estão no cabeçalho do `demo-fone.sh`, e
 o roteiro **falha em vez de gravar** se a recusa de pagamento não acontecer.
+
+## Rascunho vertical — replay textual, não nova captura
+
+`portrait.mp4` é uma montagem **sem áudio** em cinco cartões de oito segundos,
+extraída de `demo-fone.cast`. O script não roda `adb`, `aferidor-fone`, carrinho,
+pagamento ou navegador. A captura original foi feita no aparelho com a fixture;
+nesta edição só se lê aquele arquivo. Nenhuma conta real foi acessada.
+
+O texto das saídas vem do cast, não de resultados digitados para parecerem uma
+execução. A recomposição remove códigos de cor/limpeza de terminal e coordenadas
+finais da árvore de acessibilidade, quebra linhas em até 41 caracteres e troca
+as colunas da tabela por rótulos em cada linha. Valores, datas históricas, aviso
+de múltiplos aparelhos, veredito MANTER e recusa de pagamento são preservados.
+Títulos são editoriais. **Tempo editado** aparece no rodapé em todos os quadros;
+o cast original tem ~37,89 s, o replay tem 40 s e não simula digitação ao vivo.
+Não é prova de integração com aplicativo de entrega nem promessa de economia.
+
+A tarja superior fixa de 280 px traz, em texto de 36 px, **VITRINE LOCAL DE
+DEMONSTRAÇÃO / NÃO É IFOOD NEM APP DE ENTREGA / aferidor-fone é experimental**.
+O corpo usa DejaVu Sans Mono de 38 px, não a tela de 100 colunas encolhida.
+DejaVu Sans/Mono são fontes de sistema sob a
+[licença DejaVu/Bitstream Vera](https://dejavu-fonts.github.io/License.html);
+nenhum arquivo de fonte é distribuído. Cast, roteiro, composição, vídeo, poster
+e evidências visuais são Apache-2.0 do projeto. Sem música, imagens de terceiros
+ou serviço de geração de imagem. Implementação desta edição: OpenAI/GPT-6 Astra.
+
+Regenerar: `make portrait` (Python 3, Inkscape, FFmpeg com libx264 e fontes
+DejaVu); no desktop a edição foi codificada com VAAPI via
+`make portrait MEDIA_ENCODER=h264_vaapi`. Requer `/dev/dri/renderD128` funcional;
+não há fallback silencioso nesse modo. O conteúdo e a composição são
+reproduzíveis; bytes H.264 podem variar com encoder/driver/versão.
+
+Verificar: `make check && make check-media`. O primeiro mantém todos os testes
+anteriores e checa dimensões/peso do poster e cabeçalho/peso MP4 sem dependências
+Python extras. O segundo usa FFmpeg para formato/duração/24 fps/ausência de áudio
+e compara os glifos da tarja de **todos os 960 quadros** ao poster inspecionado.
+O hash RGB da tarja do poster também é fixado: mudança de fonte/renderizador
+exige inspeção antes de atualizar o hash, não apagar o teste. Isso prova
+integridade visual, não substitui revisão semântica independente. O gate FFmpeg
+é local/do coordenador; não foi adicionado ao workflow nesta PR.
+
+Evidência reproduzível em `docs/assets/evidence/portrait/`: `ffprobe.json`,
+`contact-sheet.png` (quadros 0, 192, 384, 576 e 959), logs de geração/testes e
+checagem negativa. O poster e o cast são alternativas estática e textual ao
+vídeo; os pares GIF claro/escuro do README permanecem intactos.
 
 ## Modo claro e modo escuro
 

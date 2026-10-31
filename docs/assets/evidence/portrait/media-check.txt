@@ -1,0 +1,10 @@
+python3 tests/test_portrait.py
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.009s
+
+OK
+python3 scripts/check-media.py
+ok — H.264 1080x1920, 40s, 24fps, silent, 889064 bytes; disclosure intact in 960/960 frames (worst glyph MAE 0.628)
+python3 tests/test_media.py
+ok — rejected final-frame-only disclosure damage: disclosure missing/altered at frame 959: glyph MAE=39.45

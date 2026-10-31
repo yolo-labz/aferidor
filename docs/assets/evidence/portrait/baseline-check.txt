@@ -1,0 +1,26 @@
+sh tests/run.sh
+python3 scripts/check-assets.py
+
+== aferidor — units, numbers, migration rule
+ok — 2 SVG sources, 7 rendered assets within budget, palette clears WCAG AA, diagram in sync, manifest complete
+ok — packages, numbers, the migration rule and the replenishment rule all hold
+
+== aferidor-fone — payment gate, element matching
+ok — payment gate catches every dangerous label, matcher prefers the tightest element
+
+== aferidor-mcp — protocol, failures, and no payment capability
+ok — MCP handshake, 11 tools, failures contained, and no tool can order or pay
+
+== aferidor — receipts import once, history, and low stock
+ok — receipts import once, history reads by date, low stock is a suggestion, and a pre-rename household keeps its own thresholds
+
+== extension — page collector parsing
+ok — collector read 5 cards, packages and names intact
+
+== template — a fresh household repository validates
+ok — init, check, advise and compare all succeed on a fresh repository
+
+== installer — upgrade from the old name
+ok — a pre-rename install is removed, not left to shadow the new one
+
+ALL CHECKS PASSED

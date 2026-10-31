@@ -5,20 +5,23 @@
 #   make demo          re-record the terminal demo (slow; changes dates)
 #   make check         run the whole verification suite
 #
-# Needs: python3 (stdlib only). For `assets`: inkscape, imagemagick.
+# Needs: python3 (stdlib only). For `assets`: inkscape, imagemagick, agg,
+# ffmpeg + DejaVu fonts. `portrait` needs no phone or new capture.
 # For `demo`: asciinema + agg — available on nix without installing anything:
 #   nix-shell -p asciinema asciinema-agg --run 'make demo'
 
 SOURCE   := docs/assets/source
 RENDERED := docs/assets/rendered
 
-.PHONY: all assets demo check check-assets test clean help
+.PHONY: all assets demo demo-fone portrait check check-assets check-media test clean help
 
 help:
 	@echo 'make assets   regenerate rendered images from source'
 	@echo 'make demo     re-record the CLI terminal cast and GIF'
 	@echo 'make demo-fone  re-record the phone-loop cast (needs a real phone)'
-	@echo 'make check    tests + asset checks'
+	@echo 'make portrait  render the portrait textual replay (no phone)'
+	@echo 'make check    tests + stdlib asset checks'
+	@echo 'make check-media  FFmpeg gate: portrait format + every-frame disclosure'
 
 all: assets
 
@@ -26,7 +29,7 @@ all: assets
 # near-black canvas for half its users, and a single light-theme GIF is a white
 # slab there — the README picks between them with <picture media=…>, which is
 # the platform's own mechanism rather than a second copy of the markdown.
-assets: $(RENDERED)/social-preview.png \
+assets: portrait $(RENDERED)/social-preview.png \
         $(RENDERED)/demo.gif $(RENDERED)/demo-dark.gif $(RENDERED)/demo.png \
         $(RENDERED)/demo-fone.gif $(RENDERED)/demo-fone-dark.gif $(RENDERED)/demo-fone.png
 
@@ -105,6 +108,16 @@ demo-fone:
 	  -c "sh $(SOURCE)/demo-fone.sh" $(SOURCE)/demo-fone.cast
 	$(MAKE) $(RENDERED)/demo-fone.gif $(RENDERED)/demo-fone.png
 
+# Explicit encoder choice: portable default; this draft used working VAAPI.
+MEDIA_ENCODER ?= libx264
+portrait:
+	python3 $(SOURCE)/portrait.py --encoder $(MEDIA_ENCODER)
+
+check-media:
+	python3 tests/test_portrait.py
+	python3 scripts/check-media.py
+	python3 tests/test_media.py
+
 check: test check-assets
 
 test:
@@ -114,4 +127,4 @@ check-assets:
 	python3 scripts/check-assets.py
 
 clean:
-	rm -f $(RENDERED)/*.png $(RENDERED)/*.gif
+	rm -f $(RENDERED)/*.png $(RENDERED)/*.gif $(RENDERED)/portrait.mp4
