@@ -17,6 +17,10 @@ updates:
     labels:
       - dependencies
       - github-actions
+    # Routine bumps arrive as one PR; a major arrives alone, for review.
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
 
 # No other ecosystems on purpose: aferidor is standard-library Python with zero
 # runtime dependencies, and the browser extension has no build step. There is
