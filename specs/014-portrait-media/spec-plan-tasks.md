@@ -35,4 +35,4 @@ Check parsing/layout with one runnable unittest file; inspect all five cards.
 - [ ] Coordinator: full GLM exact-head independent review after queue recovery.
 - [ ] Coordinator: decide merge; no worker merge/deployment/public posting.
 
-Generator: OpenAI / GPT-6 Astra (GLM precursor was read-only).
+
