@@ -120,7 +120,7 @@ DejaVu Sans/Mono são fontes de sistema sob a
 [licença DejaVu/Bitstream Vera](https://dejavu-fonts.github.io/License.html);
 nenhum arquivo de fonte é distribuído. Cast, roteiro, composição, vídeo, poster
 e evidências visuais são Apache-2.0 do projeto. Sem música, imagens de terceiros
-ou serviço de geração de imagem. Implementação desta edição: OpenAI/GPT-6 Astra.
+ou serviço de geração de imagem.
 
 Regenerar: `make portrait` (Python 3, Inkscape, FFmpeg com libx264 e fontes
 DejaVu); no desktop a edição foi codificada com VAAPI via
